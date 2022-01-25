@@ -1,0 +1,4 @@
+2022/01/17-20:55:34 INFO  [main] com.jsh.erp.ErpApplication - Starting ErpApplication on DESKTOP-THFROJH with PID 18972 (C:\Users\lanvce\Lanvce\project\jshERP-master\jshERP-boot\target\classes started by lanvce in C:\Users\lanvce\Lanvce\project\jshERP-master\jshERP-boot)
+2022/01/17-20:55:34 DEBUG [main] com.jsh.erp.ErpApplication - Running with Spring Boot v2.0.0.RELEASE, Spring v5.0.4.RELEASE
+2022/01/17-20:55:34 INFO  [main] com.jsh.erp.ErpApplication - No active profile set, falling back to default profiles: default
+2022/01/17-20:55:39 INFO  [main] com.jsh.erp.ErpApplication - Started ErpApplication in 6.196 seconds (JVM running for 7.768)
