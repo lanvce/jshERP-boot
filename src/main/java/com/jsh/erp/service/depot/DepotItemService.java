@@ -6,7 +6,7 @@ import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.jsh.erp.constants.BusinessConstants;
 import com.jsh.erp.constants.ExceptionConstants;
 import com.jsh.erp.datasource.entities.*;
@@ -23,6 +23,7 @@ import com.jsh.erp.service.material.MaterialService;
 import com.jsh.erp.service.system.serialNumber.SerialNumberService;
 import com.jsh.erp.service.system.systemConfig.SystemConfigService;
 import com.jsh.erp.service.auth.user.UserService;
+import com.jsh.erp.utils.EmailUtil;
 import com.jsh.erp.utils.QueryUtils;
 import com.jsh.erp.utils.StringUtil;
 import com.jsh.erp.utils.Tools;
@@ -34,10 +35,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -735,15 +738,16 @@ public class DepotItemService {
         return depotItemMapperEx.getBatchNumberList(name, depotId, barCode, batchNumber);
     }
 
-    public void exportToExcel(Long id){
+    private String generateExcel(Long id){
         if (id==null){
-            return;
+            return Constants.EMPTY;
         }
+        String targetFilePath= Constants.EMPTY;
         try {
             List<DepotItemVo4WithInfoEx> detailList = getDetailList(id);
             DepotHead depotHead = depotHeadMapper.selectByPrimaryKey(id);
             if (CollectionUtils.isEmpty(detailList)||depotHead==null){
-                return;
+                return Constants.EMPTY;
             }
 
             //客户信息
@@ -828,12 +832,84 @@ public class DepotItemService {
             }
 
             FileOutputStream fos = new FileOutputStream(excelFile);
+
             workbook.write(fos);
+            workbook.close();
             fos.close();
 
+            targetFilePath=targetPath+File.separator+fileName;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return targetFilePath;
     }
+
+
+    public void downloadOrderExcel(Long id, HttpServletResponse response) throws IOException {
+        if (id==null){
+            return;
+        }
+        DepotHead depotHead = depotHeadMapper.selectByPrimaryKey(id);
+        if (depotHead==null){
+            return ;
+        }
+
+        //生成的excel文件路径
+        String filePath = generateExcel(id);
+        File excelFile=new File(filePath);
+        if (!excelFile.exists()) {
+            return;
+        }
+        FileInputStream stream = new FileInputStream(excelFile);
+        ServletOutputStream out = response.getOutputStream();
+
+        response.setContentType("application/x-download");
+        String fileName = URLEncoder.encode(depotHead.getDefaultNumber(), "UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.addHeader("Content-Disposition", "attachment;filename=" + fileName+".xlsx");
+
+        byte buff[] = new byte[1024];
+        int length = 0;
+
+        while ((length = stream.read(buff)) > 0) {
+            out.write(buff,0,length);
+        }
+        stream.close();
+        out.close();
+        out.flush();
+    }
+
+
+    public boolean sendExcel(Long id,String formType) throws IOException {
+        if (id==null){
+            return false;
+        }
+        DepotHead depotHead = depotHeadMapper.selectByPrimaryKey(id);
+        if (depotHead==null){
+            return false;
+        }
+
+        try {
+            //客户
+            Long customer = depotHead.getCustomer();
+            if (customer==null){
+                return false;
+            }
+            Supplier supplier = supplierService.getSupplier(customer);
+            if (supplier==null||StringUtil.isEmpty(supplier.getEmail())){
+                return false;
+            }
+            //生成的excel文件路径
+            String filePath = generateExcel(id);
+            File file = new File(filePath);
+            if (!file.exists()){
+                return false;
+            }
+            EmailUtil.sendHtmlMail(supplier.getEmail(),depotHead.getName()+"-"+formType,"",file);
+        } catch (Exception e) {
+
+        }
+        return true;
+    }
+
 }

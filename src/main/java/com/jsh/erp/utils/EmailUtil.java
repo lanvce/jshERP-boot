@@ -6,7 +6,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+import javax.mail.internet.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -22,6 +23,7 @@ public class EmailUtil {
     private static String passWord;
     private static String emailForm;
     private static String timeOut;
+    private static String cc;
 
 
     static{
@@ -45,6 +47,7 @@ public class EmailUtil {
             passWord = properties.getProperty("passWord");
             emailForm = properties.getProperty("emailForm");
             timeOut = properties.getProperty("timeOut");
+            cc = properties.getProperty("cc");
         } catch(IOException e){
             logger.error(e.getMessage() , e);
         }
@@ -79,19 +82,25 @@ public class EmailUtil {
      * @throws MessagingException 异常
      * @throws UnsupportedEncodingException 异常
      */
-    public static void sendHtmlMail(String to, String subject, String html) throws MessagingException, UnsupportedEncodingException {
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
+    public static void sendHtmlMail(String to, String subject, String html,File file) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = mailSender.createMimeMessage();
         // 设置utf-8或GBK编码，否则邮件会有乱码
-        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
         messageHelper.setFrom(emailForm, "");
         messageHelper.setTo(to);
+        // 设置主题
         messageHelper.setSubject(subject);
         messageHelper.setText(html, true);
-        mailSender.send(mimeMessage);
+        //添加附件
+        messageHelper.addAttachment(file.getName(),file);
+        //设置抄送
+        messageHelper.setCc(cc);
+
+        mailSender.send(message);
     }
 
     public static void main(String[] args) throws UnsupportedEncodingException, MessagingException {
 
-        sendHtmlMail("1569101820@qq.com", "测试邮件", "测试");
+//        sendHtmlMail("1569101820@qq.com", "的报价单", "测试");
     }
 }

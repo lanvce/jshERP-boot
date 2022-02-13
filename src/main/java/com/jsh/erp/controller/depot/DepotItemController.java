@@ -6,7 +6,6 @@ import com.jsh.erp.constants.BusinessConstants;
 import com.jsh.erp.datasource.entities.*;
 import com.jsh.erp.datasource.vo.DepotItemStockWarningCount;
 import com.jsh.erp.datasource.vo.DepotItemVoBatchNumberList;
-import com.jsh.erp.datasource.vo.ExportDepotItemVo;
 import com.jsh.erp.service.depot.DepotService;
 import com.jsh.erp.service.material.MaterialExtendService;
 import com.jsh.erp.service.depot.DepotItemService;
@@ -696,12 +695,22 @@ public class DepotItemController {
 
     /**
      * 导出单据到excel
+     * @return
+     */
+    @GetMapping(value = "/excel/download")
+    @ApiOperation(value = "导出单据到excel")
+    public void downloadOrderList(@RequestParam("id") Long id, HttpServletResponse response) throws Exception{
+        depotItemService.downloadOrderExcel(id,response);
+    }
+
+    /**
+     * 将报价单以附件形式发送给客户
      * @param request
      * @return
      */
-    @GetMapping(value = "/exportOrderList")
+    @GetMapping(value = "/excel/send")
     @ApiOperation(value = "导出单据到excel")
-    public void exportOrderList(@RequestParam("id") Long id, HttpServletRequest request) throws Exception{
-        depotItemService.exportToExcel(id);
+    public boolean sendOrderList(@RequestParam("id") Long id) throws Exception{
+        return depotItemService.sendExcel(id,"报价单");
     }
 }

@@ -221,7 +221,7 @@
         brand,
       </if>
       <if test="quoteType !=null">
-        quoteType
+        quote_type
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">

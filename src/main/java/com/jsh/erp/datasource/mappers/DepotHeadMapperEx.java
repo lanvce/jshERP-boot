@@ -33,7 +33,10 @@ public interface DepotHeadMapperEx {
             @Param("depotId") Long depotId,
             @Param("depotArray") String[] depotArray,
             @Param("offset") Integer offset,
-            @Param("rows") Integer rows);
+            @Param("rows") Integer rows,
+            @Param("name") String name,
+            @Param("customer") Long  customer);
+
 
     Long countsByDepotHead(
             @Param("type") String type,
