@@ -1,7 +1,7 @@
 package com.jsh.erp.service.account;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jsh.erp.service.ICommonQuery;
+import com.jsh.erp.service.common.ICommonQuery;
 import com.jsh.erp.utils.Constants;
 import com.jsh.erp.utils.QueryUtils;
 import com.jsh.erp.utils.StringUtil;

@@ -9,7 +9,17 @@ public class MaterialLink {
 
     private Long materialId;
 
+    private Long tenantId;
+
     private Date createTime;
+
+    public Long getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId;
+    }
 
     public Long getMaterialId() {
         return materialId;

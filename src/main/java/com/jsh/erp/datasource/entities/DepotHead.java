@@ -60,6 +60,26 @@ public class DepotHead {
 
     private String deleteFlag;
 
+    private String name;
+
+    private Long customer;
+
+    public Long getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Long customer) {
+        this.customer = customer;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

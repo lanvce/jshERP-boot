@@ -103,6 +103,16 @@
       order by ${orderByClause}
     </if>
   </select>
+
+  <select id="selectByIds" resultMap="BaseResultMap" >
+    select * from jsh_supplier
+    where
+    id in
+    <foreach collection="ids" close=")" open="(" item="item" separator=",">
+      #{item}
+    </foreach>
+
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

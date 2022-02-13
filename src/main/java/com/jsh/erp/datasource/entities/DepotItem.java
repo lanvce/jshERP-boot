@@ -50,6 +50,36 @@ public class DepotItem {
 
     private String deleteFlag;
 
+    private Long supplier;
+
+    private int quoteType;//报价类型 集采/代发
+
+    private String brand;//品牌
+
+    public int getQuoteType() {
+        return quoteType;
+    }
+
+    public void setQuoteType(int quoteType) {
+        this.quoteType = quoteType;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public Long getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Long supplier) {
+        this.supplier = supplier;
+    }
+
     public Long getId() {
         return id;
     }

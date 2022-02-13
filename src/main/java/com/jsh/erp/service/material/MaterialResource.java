@@ -1,6 +1,6 @@
 package com.jsh.erp.service.material;
 
-import com.jsh.erp.service.ResourceInfo;
+import com.jsh.erp.service.common.ResourceInfo;
 
 import java.lang.annotation.*;
 

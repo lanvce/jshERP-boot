@@ -2,6 +2,8 @@ package com.jsh.erp.datasource.mappers;
 
 import com.jsh.erp.datasource.entities.Supplier;
 import com.jsh.erp.datasource.entities.SupplierExample;
+
+import java.util.Collection;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,6 +19,8 @@ public interface SupplierMapper {
     int insertSelective(Supplier record);
 
     List<Supplier> selectByExample(SupplierExample example);
+
+    List<Supplier> selectByIds(@Param("ids") Collection<Long> materialIds);
 
     Supplier selectByPrimaryKey(Long id);
 

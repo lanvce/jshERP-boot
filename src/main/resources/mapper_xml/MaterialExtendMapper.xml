@@ -8,6 +8,7 @@
     <result column="commodity_unit" jdbcType="VARCHAR" property="commodityUnit" />
     <result column="sku" jdbcType="VARCHAR" property="sku" />
     <result column="purchase_decimal" jdbcType="DECIMAL" property="purchaseDecimal" />
+    <result column="dropshipping_decimal" jdbcType="DECIMAL" property="dropshippingDecimal" />
     <result column="commodity_decimal" jdbcType="DECIMAL" property="commodityDecimal" />
     <result column="wholesale_decimal" jdbcType="DECIMAL" property="wholesaleDecimal" />
     <result column="low_decimal" jdbcType="DECIMAL" property="lowDecimal" />
@@ -114,14 +115,14 @@
   </delete>
   <insert id="insert" parameterType="com.jsh.erp.datasource.entities.MaterialExtend">
     insert into jsh_material_extend (id, material_id, bar_code, 
-      commodity_unit, sku, purchase_decimal, 
+      commodity_unit, sku, purchase_decimal, dropshipping_decimal,
       commodity_decimal, wholesale_decimal, low_decimal, 
       default_flag, create_time, create_serial, 
       update_serial, update_time, tenant_id, 
       delete_Flag)
     values (#{id,jdbcType=BIGINT}, #{materialId,jdbcType=BIGINT}, #{barCode,jdbcType=VARCHAR}, 
-      #{commodityUnit,jdbcType=VARCHAR}, #{sku,jdbcType=VARCHAR}, #{purchaseDecimal,jdbcType=DECIMAL}, 
-      #{commodityDecimal,jdbcType=DECIMAL}, #{wholesaleDecimal,jdbcType=DECIMAL}, #{lowDecimal,jdbcType=DECIMAL}, 
+      #{commodityUnit,jdbcType=VARCHAR}, #{sku,jdbcType=VARCHAR}, #{purchaseDecimal,jdbcType=DECIMAL}, #{dropshippingDecimal,jdbcType=DECIMAL},
+    #{commodityDecimal,jdbcType=DECIMAL}, #{wholesaleDecimal,jdbcType=DECIMAL}, #{lowDecimal,jdbcType=DECIMAL},
       #{defaultFlag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createSerial,jdbcType=VARCHAR}, 
       #{updateSerial,jdbcType=VARCHAR}, #{updateTime,jdbcType=BIGINT}, #{tenantId,jdbcType=BIGINT}, 
       #{deleteFlag,jdbcType=VARCHAR})
@@ -146,6 +147,9 @@
       </if>
       <if test="purchaseDecimal != null">
         purchase_decimal,
+      </if>
+      <if test="dropshippingDecimal != null">
+        dropshipping_decimal,
       </if>
       <if test="commodityDecimal != null">
         commodity_decimal,
@@ -196,6 +200,9 @@
       </if>
       <if test="purchaseDecimal != null">
         #{purchaseDecimal,jdbcType=DECIMAL},
+      </if>
+      <if test="dropshippingDecimal != null">
+        #{dropshippingDecimal,jdbcType=DECIMAL},
       </if>
       <if test="commodityDecimal != null">
         #{commodityDecimal,jdbcType=DECIMAL},
@@ -256,6 +263,9 @@
       <if test="record.purchaseDecimal != null">
         purchase_decimal = #{record.purchaseDecimal,jdbcType=DECIMAL},
       </if>
+      <if test="record.dropshippingDecimal != null">
+        dropshipping_decimal=#{record.dropshippingDecimal,jdbcType=DECIMAL},
+      </if>
       <if test="record.commodityDecimal != null">
         commodity_decimal = #{record.commodityDecimal,jdbcType=DECIMAL},
       </if>
@@ -299,7 +309,8 @@
       commodity_unit = #{record.commodityUnit,jdbcType=VARCHAR},
       sku = #{record.sku,jdbcType=VARCHAR},
       purchase_decimal = #{record.purchaseDecimal,jdbcType=DECIMAL},
-      commodity_decimal = #{record.commodityDecimal,jdbcType=DECIMAL},
+    dropshipping_decimal = #{record.dropshippingDecimal,jdbcType=DECIMAL},
+    commodity_decimal = #{record.commodityDecimal,jdbcType=DECIMAL},
       wholesale_decimal = #{record.wholesaleDecimal,jdbcType=DECIMAL},
       low_decimal = #{record.lowDecimal,jdbcType=DECIMAL},
       default_flag = #{record.defaultFlag,jdbcType=VARCHAR},
@@ -330,6 +341,9 @@
       </if>
       <if test="purchaseDecimal != null">
         purchase_decimal = #{purchaseDecimal,jdbcType=DECIMAL},
+      </if>
+      <if test="dropshippingDecimal != null">
+        dropshipping_decimal = #{dropshippingDecimal,jdbcType=DECIMAL},
       </if>
       <if test="commodityDecimal != null">
         commodity_decimal = #{commodityDecimal,jdbcType=DECIMAL},
@@ -371,7 +385,8 @@
       commodity_unit = #{commodityUnit,jdbcType=VARCHAR},
       sku = #{sku,jdbcType=VARCHAR},
       purchase_decimal = #{purchaseDecimal,jdbcType=DECIMAL},
-      commodity_decimal = #{commodityDecimal,jdbcType=DECIMAL},
+    dropshipping_decimal = #{dropshippingDecimal,jdbcType=DECIMAL},
+    commodity_decimal = #{commodityDecimal,jdbcType=DECIMAL},
       wholesale_decimal = #{wholesaleDecimal,jdbcType=DECIMAL},
       low_decimal = #{lowDecimal,jdbcType=DECIMAL},
       default_flag = #{defaultFlag,jdbcType=VARCHAR},

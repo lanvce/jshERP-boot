@@ -25,6 +25,9 @@
     <result column="expiration_date" jdbcType="TIMESTAMP" property="expirationDate" />
     <result column="tenant_id" jdbcType="BIGINT" property="tenantId" />
     <result column="delete_flag" jdbcType="VARCHAR" property="deleteFlag" />
+    <result column="supplier" jdbcType="BIGINT" property="supplier" />
+    <result column="quote_type" jdbcType="INTEGER" property="quoteType"/>
+    <result column="brand" jdbcType="VARCHAR" property="brand"/>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -88,7 +91,7 @@
     id, header_id, material_id, material_extend_id, material_unit, sku, oper_number, 
     basic_number, unit_price, tax_unit_price, all_price, remark, depot_id, another_depot_id, 
     tax_rate, tax_money, tax_last_money, material_type, sn_list, batch_number, expiration_date, 
-    tenant_id, delete_flag
+    tenant_id, delete_flag,supplier,quote_type,brand
   </sql>
   <select id="selectByExample" parameterType="com.jsh.erp.datasource.entities.DepotItemExample" resultMap="BaseResultMap">
     select
@@ -128,7 +131,7 @@
       depot_id, another_depot_id, tax_rate, 
       tax_money, tax_last_money, material_type, 
       sn_list, batch_number, expiration_date, 
-      tenant_id, delete_flag)
+      tenant_id, delete_flag,supplier,brand,quote_type)
     values (#{id,jdbcType=BIGINT}, #{headerId,jdbcType=BIGINT}, #{materialId,jdbcType=BIGINT}, 
       #{materialExtendId,jdbcType=BIGINT}, #{materialUnit,jdbcType=VARCHAR}, #{sku,jdbcType=VARCHAR}, 
       #{operNumber,jdbcType=DECIMAL}, #{basicNumber,jdbcType=DECIMAL}, #{unitPrice,jdbcType=DECIMAL}, 
@@ -136,7 +139,8 @@
       #{depotId,jdbcType=BIGINT}, #{anotherDepotId,jdbcType=BIGINT}, #{taxRate,jdbcType=DECIMAL}, 
       #{taxMoney,jdbcType=DECIMAL}, #{taxLastMoney,jdbcType=DECIMAL}, #{materialType,jdbcType=VARCHAR}, 
       #{snList,jdbcType=VARCHAR}, #{batchNumber,jdbcType=VARCHAR}, #{expirationDate,jdbcType=TIMESTAMP}, 
-      #{tenantId,jdbcType=BIGINT}, #{deleteFlag,jdbcType=VARCHAR})
+      #{tenantId,jdbcType=BIGINT}, #{deleteFlag,jdbcType=VARCHAR},#{supplier,jdbcType=BIGINT},
+    #{brand,jdbcType=VARCHAR},#{quoteType,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.DepotItem">
     insert into jsh_depot_item
@@ -210,6 +214,15 @@
       <if test="deleteFlag != null">
         delete_flag,
       </if>
+      <if test="supplier !=null">
+        supplier,
+      </if>
+      <if test="brand !=null">
+        brand,
+      </if>
+      <if test="quoteType !=null">
+        quoteType
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -280,6 +293,15 @@
       </if>
       <if test="deleteFlag != null">
         #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null">
+        #{supplier,jdbcType=BIGINT},
+      </if>
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="quoteType != null">
+        #{quoteType,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -361,6 +383,15 @@
       <if test="record.deleteFlag != null">
         delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
       </if>
+      <if test="record.supplier != null">
+        supplier = #{record.supplier,jdbcType=BIGINT},
+      </if>
+      <if test="record.brand != null">
+        brand = #{record.brand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quoteType != null">
+        quote_type = #{record.quoteType,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -390,7 +421,10 @@
       batch_number = #{record.batchNumber,jdbcType=VARCHAR},
       expiration_date = #{record.expirationDate,jdbcType=TIMESTAMP},
       tenant_id = #{record.tenantId,jdbcType=BIGINT},
-      delete_flag = #{record.deleteFlag,jdbcType=VARCHAR}
+      delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      supplier = #{record.supplier,jdbcType=BIGINT},
+      brand = #{record.brand,jdbcType=VARCHAR},
+      quote_type = #{record.quoteType,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -464,6 +498,15 @@
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=VARCHAR},
       </if>
+      <if test="supplier != null">
+        supplier = #{supplier,jdbcType=BIGINT},
+      </if>
+      <if test="brand != null">
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="quoteType != null">
+        quote_type = #{quoteType,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -490,7 +533,10 @@
       batch_number = #{batchNumber,jdbcType=VARCHAR},
       expiration_date = #{expirationDate,jdbcType=TIMESTAMP},
       tenant_id = #{tenantId,jdbcType=BIGINT},
-      delete_flag = #{deleteFlag,jdbcType=VARCHAR}
+      delete_flag = #{deleteFlag,jdbcType=VARCHAR},
+      supplier = #{supplier,jdbcType=BIGINT},
+      brand = #{brand,jdbcType=VARCHAR},
+      quote_type = #{quoteType,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

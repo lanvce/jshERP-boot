@@ -11,6 +11,16 @@ public class MaterialSupplier {
 
     private Date createTime;
 
+    private Long tenantId;
+
+    public Long getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }

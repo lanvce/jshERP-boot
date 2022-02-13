@@ -1,6 +1,7 @@
 package com.jsh.erp.datasource.entities;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class MaterialVo4Unit extends Material{
 
@@ -13,6 +14,8 @@ public class MaterialVo4Unit extends Material{
     private BigDecimal stock;
 
     private BigDecimal purchaseDecimal;
+
+    private BigDecimal dropshippingDecimal;
 
     private BigDecimal commodityDecimal;
 
@@ -37,6 +40,34 @@ public class MaterialVo4Unit extends Material{
     private String sku;
 
     private Long depotId;
+
+    private List<Supplier> supplierList;
+
+    private List<String> links;
+
+    public BigDecimal getDropshippingDecimal() {
+        return dropshippingDecimal;
+    }
+
+    public void setDropshippingDecimal(BigDecimal dropshippingDecimal) {
+        this.dropshippingDecimal = dropshippingDecimal;
+    }
+
+    public List<String> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<String> links) {
+        this.links = links;
+    }
+
+    public List<Supplier> getSupplierList() {
+        return supplierList;
+    }
+
+    public void setSupplierList(List<Supplier> supplierList) {
+        this.supplierList = supplierList;
+    }
 
     public String getUnitName() {
         return unitName;

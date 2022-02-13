@@ -548,7 +548,8 @@ CREATE TABLE `jsh_material_extend`  (
   `bar_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品条码',
   `commodity_unit` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品单位',
   `sku` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '多属性',
-  `purchase_decimal` decimal(24, 6) NULL DEFAULT NULL COMMENT '采购价格',
+  `purchase_decimal` decimal(24, 6) NULL DEFAULT NULL COMMENT '采购(集采)价格',
+  `dropshipping_decimal` decimal(24, 6) NULL DEFAULT NULL COMMENT '一件代发价格',
   `commodity_decimal` decimal(24, 6) NULL DEFAULT NULL COMMENT '零售价格',
   `wholesale_decimal` decimal(24, 6) NULL DEFAULT NULL COMMENT '销售价格',
   `low_decimal` decimal(24, 6) NULL DEFAULT NULL COMMENT '最低售价',
@@ -565,20 +566,20 @@ CREATE TABLE `jsh_material_extend`  (
 -- ----------------------------
 -- Records of jsh_material_extend
 -- ----------------------------
-INSERT INTO `jsh_material_extend` VALUES (1, 587, '1000', '个', NULL, 11.000000, 22.000000, 22.000000, 22.000000, '1', '2020-02-20 23:22:03', 'jsh', 'jsh', 1595263657135, 63, '0');
-INSERT INTO `jsh_material_extend` VALUES (2, 568, '1001', '个', NULL, 11.000000, 15.000000, 15.000000, 15.000000, '1', '2020-02-20 23:44:57', 'jsh', 'jsh', 1595265439418, 63, '0');
-INSERT INTO `jsh_material_extend` VALUES (3, 569, '1002', '只', NULL, 10.000000, 15.000000, 15.000000, 13.000000, '1', '2020-02-20 23:45:15', 'jsh', 'jsh', 1582213514731, 63, '0');
-INSERT INTO `jsh_material_extend` VALUES (4, 570, '1003', '个', NULL, 8.000000, 15.000000, 14.000000, 13.000000, '1', '2020-02-20 23:45:37', 'jsh', 'jsh', 1587657604430, 63, '0');
-INSERT INTO `jsh_material_extend` VALUES (5, 577, '1004', '个', NULL, 10.000000, 20.000000, 20.000000, 20.000000, '1', '2020-02-20 23:46:36', 'jsh', 'jsh', 1582213596494, 63, '0');
-INSERT INTO `jsh_material_extend` VALUES (6, 577, '1005', '箱', NULL, 120.000000, 240.000000, 240.000000, 240.000000, '0', '2020-02-20 23:46:36', 'jsh', 'jsh', 1582213596497, 63, '0');
-INSERT INTO `jsh_material_extend` VALUES (7, 579, '1006', '个', NULL, 20.000000, 30.000000, 30.000000, 30.000000, '1', '2020-02-20 23:47:04', 'jsh', 'jsh', 1595264270458, 63, '0');
-INSERT INTO `jsh_material_extend` VALUES (8, 579, '1007', '箱', NULL, 240.000000, 360.000000, 360.000000, 360.000000, '0', '2020-02-20 23:47:04', 'jsh', 'jsh', 1595264270466, 63, '0');
-INSERT INTO `jsh_material_extend` VALUES (9, 586, '1008', '个', NULL, 12.000000, 15.000000, 15.000000, 15.000000, '1', '2020-02-20 23:47:23', 'jsh', 'jsh', 1595254981896, 63, '0');
-INSERT INTO `jsh_material_extend` VALUES (10, 588, '1009', '个', NULL, 11.000000, 22.000000, 22.000000, 22.000000, '1', '2020-07-21 00:58:15', 'jsh', 'jsh', 1614699799073, 63, '0');
-INSERT INTO `jsh_material_extend` VALUES (36, 619, '1014', '件', '橙色,M', 12.000000, 15.000000, 14.000000, NULL, '1', '2021-07-28 01:00:20', 'jsh', 'jsh', 1627405220316, 63, '0');
-INSERT INTO `jsh_material_extend` VALUES (37, 619, '1015', '件', '橙色,L', 12.000000, 15.000000, 14.000000, NULL, '0', '2021-07-28 01:00:20', 'jsh', 'jsh', 1627405220327, 63, '0');
-INSERT INTO `jsh_material_extend` VALUES (38, 619, '1016', '件', '绿色,M', 12.000000, 15.000000, 14.000000, NULL, '0', '2021-07-28 01:00:20', 'jsh', 'jsh', 1627405220336, 63, '0');
-INSERT INTO `jsh_material_extend` VALUES (39, 619, '1017', '件', '绿色,L', 12.000000, 15.000000, 14.000000, NULL, '0', '2021-07-28 01:00:20', 'jsh', 'jsh', 1627405220346, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (1, 587, '1000', '个', NULL, 11.000000, 11.000000,22.000000, 22.000000, 22.000000, '1', '2020-02-20 23:22:03', 'jsh', 'jsh', 1595263657135, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (2, 568, '1001', '个', NULL, 11.000000, 11.000000,15.000000, 15.000000, 15.000000, '1', '2020-02-20 23:44:57', 'jsh', 'jsh', 1595265439418, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (3, 569, '1002', '只', NULL, 10.000000,11.000000, 15.000000, 15.000000, 13.000000, '1', '2020-02-20 23:45:15', 'jsh', 'jsh', 1582213514731, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (4, 570, '1003', '个', NULL, 8.000000,11.000000, 15.000000, 14.000000, 13.000000, '1', '2020-02-20 23:45:37', 'jsh', 'jsh', 1587657604430, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (5, 577, '1004', '个', NULL, 10.000000, 11.000000,20.000000, 20.000000, 20.000000, '1', '2020-02-20 23:46:36', 'jsh', 'jsh', 1582213596494, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (6, 577, '1005', '箱', NULL, 120.000000, 11.000000,240.000000, 240.000000, 240.000000, '0', '2020-02-20 23:46:36', 'jsh', 'jsh', 1582213596497, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (7, 579, '1006', '个', NULL, 20.000000, 11.000000,30.000000, 30.000000, 30.000000, '1', '2020-02-20 23:47:04', 'jsh', 'jsh', 1595264270458, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (8, 579, '1007', '箱', NULL, 240.000000, 11.000000,360.000000, 360.000000, 360.000000, '0', '2020-02-20 23:47:04', 'jsh', 'jsh', 1595264270466, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (9, 586, '1008', '个', NULL, 12.000000, 11.000000,15.000000, 15.000000, 15.000000, '1', '2020-02-20 23:47:23', 'jsh', 'jsh', 1595254981896, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (10, 588, '1009', '个', NULL, 11.000000, 11.000000,22.000000, 22.000000, 22.000000, '1', '2020-07-21 00:58:15', 'jsh', 'jsh', 1614699799073, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (36, 619, '1014', '件', '橙色,M', 12.000000, 11.000000,15.000000, 14.000000, NULL, '1', '2021-07-28 01:00:20', 'jsh', 'jsh', 1627405220316, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (37, 619, '1015', '件', '橙色,L', 12.000000, 11.000000,15.000000, 14.000000, NULL, '0', '2021-07-28 01:00:20', 'jsh', 'jsh', 1627405220327, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (38, 619, '1016', '件', '绿色,M', 12.000000, 11.000000,15.000000, 14.000000, NULL, '0', '2021-07-28 01:00:20', 'jsh', 'jsh', 1627405220336, 63, '0');
+INSERT INTO `jsh_material_extend` VALUES (39, 619, '1017', '件', '绿色,L', 12.000000, 11.000000,15.000000, 14.000000, NULL, '0', '2021-07-28 01:00:20', 'jsh', 'jsh', 1627405220346, 63, '0');
 
 -- ----------------------------
 -- Table structure for jsh_material_initial_stock
@@ -985,6 +986,7 @@ CREATE TABLE `jsh_material_supplier`  (
   `material_id` bigint(0) NOT NULL  COMMENT '商品id',
   `supplier_id` bigint(0) NOT NULL  COMMENT '供应商id',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `tenant_id` bigint(0) NOT NULL  COMMENT '租户id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品-供应商映射信息' ROW_FORMAT = Dynamic;
 
@@ -995,8 +997,9 @@ DROP TABLE IF EXISTS `jsh_material_link`;
 CREATE TABLE `jsh_material_link`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `material_id` bigint(0) NOT NULL  COMMENT '商品id',
-  `link_id` bigint(0) NOT NULL  COMMENT '电商链接',
+  `link` varchar(500) NOT NULL  COMMENT '电商链接',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `tenant_id` bigint(0) NOT NULL  COMMENT '租户id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品-电商链接映射信息' ROW_FORMAT = Dynamic;
 
@@ -1046,3 +1049,13 @@ INSERT INTO `jsh_user_business` VALUES (69, 'RoleFunctions', '17', '[210][211][2
 INSERT INTO `jsh_user_business` VALUES (83, 'UserRole', '146', '[17]', NULL, 63, '0');
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+alter table jsh_depot_item add ( supplier bigint(0)  COMMENT "供应商");
+alter table jsh_material add ( brand varchar(500) default '' COMMENT "品牌");
+alter table jsh_depot_item add ( quote_type int(11)  default 0 COMMENT "报价类型 0:集采 1：一件代发");
+alter table jsh_depot_item add ( brand varchar(500) default '' COMMENT "品牌");
+alter table jsh_depot_head add ( name varchar(500) default '' COMMENT "单据名称");
+alter table jsh_depot_head add ( customer bigint(0)  COMMENT "客户id");
+
+
+

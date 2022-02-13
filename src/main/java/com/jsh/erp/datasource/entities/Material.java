@@ -45,6 +45,16 @@ public class Material {
 
     private String deleteFlag;
 
+    private String brand;
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
     public Long getId() {
         return id;
     }

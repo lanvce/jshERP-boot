@@ -6,12 +6,22 @@
     <result column="material_id" jdbcType="BIGINT" property="materialId" />
     <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="tenant_id" jdbcType="BIGINT" property="tenantId"/>
   </resultMap>
 
   <select id="queryByMaterialId" resultMap="BaseResultMap">
     select *
     from jsh_material_supplier
     where material_id = #{materialId}
+  </select>
+
+  <select id="queryByMaterialIds" resultMap="BaseResultMap">
+    select *
+    from jsh_material_supplier
+    where material_id in
+    <foreach collection="materialIds" item="item" separator="," open="(" close=")">
+      #{item}
+    </foreach>
   </select>
 
   <delete id="deleteByMaterialId">

@@ -16,6 +16,8 @@ public class MaterialExtend {
 
     private BigDecimal purchaseDecimal;
 
+    private BigDecimal dropshippingDecimal;
+
     private BigDecimal commodityDecimal;
 
     private BigDecimal wholesaleDecimal;
@@ -35,6 +37,14 @@ public class MaterialExtend {
     private Long tenantId;
 
     private String deleteFlag;
+
+    public BigDecimal getDropshippingDecimal() {
+        return dropshippingDecimal;
+    }
+
+    public void setDropshippingDecimal(BigDecimal dropshippingDecimal) {
+        this.dropshippingDecimal = dropshippingDecimal;
+    }
 
     public Long getId() {
         return id;

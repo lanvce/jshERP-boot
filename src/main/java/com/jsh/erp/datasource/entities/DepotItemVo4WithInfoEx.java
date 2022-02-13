@@ -48,6 +48,16 @@ public class DepotItemVo4WithInfoEx extends DepotItem{
 
     private String barCode;
 
+    private String imgName;
+
+    public String getImgName() {
+        return imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
+    }
+
     public Long getMId() {
         return MId;
     }
