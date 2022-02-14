@@ -62,16 +62,6 @@ public class DepotHead {
 
     private String name;
 
-    private Long customer;
-
-    public Long getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Long customer) {
-        this.customer = customer;
-    }
-
     public String getName() {
         return name;
     }

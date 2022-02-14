@@ -980,15 +980,15 @@ CREATE TABLE `jsh_user_business`  (
 -- ----------------------------
 -- Table jsh_material_supplier relation
 -- ----------------------------
-DROP TABLE IF EXISTS `jsh_material_supplier`;
-CREATE TABLE `jsh_material_supplier`  (
-  `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `material_id` bigint(0) NOT NULL  COMMENT '商品id',
-  `supplier_id` bigint(0) NOT NULL  COMMENT '供应商id',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `tenant_id` bigint(0) NOT NULL  COMMENT '租户id',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品-供应商映射信息' ROW_FORMAT = Dynamic;
+-- DROP TABLE IF EXISTS `jsh_material_supplier`;
+-- CREATE TABLE `jsh_material_supplier`  (
+--   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '主键',
+--   `material_id` bigint(0) NOT NULL  COMMENT '商品id',
+--   `supplier_id` bigint(0) NOT NULL  COMMENT '供应商id',
+--   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+--   `tenant_id` bigint(0) NOT NULL  COMMENT '租户id',
+--   PRIMARY KEY (`id`) USING BTREE
+-- ) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品-供应商映射信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table jsh_material_link relation
@@ -1055,7 +1055,6 @@ alter table jsh_material add ( brand varchar(500) default '' COMMENT "品牌");
 alter table jsh_depot_item add ( quote_type int(11)  default 0 COMMENT "报价类型 0:集采 1：一件代发");
 alter table jsh_depot_item add ( brand varchar(500) default '' COMMENT "品牌");
 alter table jsh_depot_head add ( name varchar(500) default '' COMMENT "单据名称");
-alter table jsh_depot_head add ( customer bigint(0)  COMMENT "客户id");
-
-
+alter table jsh_material_extend add ( cost_decimal decimal(24, 6) NULL DEFAULT NULL COMMENT '成本价格');
+alter table jsh_material_extend add ( supplier_id bigint(0) NULL DEFAULT NULL  COMMENT "供应商id");
 

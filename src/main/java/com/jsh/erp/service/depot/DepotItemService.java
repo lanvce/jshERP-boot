@@ -751,10 +751,10 @@ public class DepotItemService {
             }
 
             //客户信息
-            Long customerId=depotHead.getCustomer();
+            Long customerId=depotHead.getOrganId();
             Supplier customerInfo=new Supplier();
             if (customerId!=null){
-                customerInfo= supplierService.getSupplier(depotHead.getCustomer());
+                customerInfo= supplierService.getSupplier(depotHead.getOrganId());
             }
 
             String templatePath = this.getClass().getClassLoader().getResource("template").getPath();
@@ -891,7 +891,7 @@ public class DepotItemService {
 
         try {
             //客户
-            Long customer = depotHead.getCustomer();
+            Long customer = depotHead.getOrganId();
             if (customer==null){
                 return false;
             }

@@ -40,9 +40,6 @@ public class MaterialService {
     private MaterialMapper materialMapper;
 
     @Resource
-    private MaterialSupplierMapper materialSupplierMapper;
-
-    @Resource
     private MaterialLinkMapper materialLinkMapper;
 
     @Resource
@@ -133,7 +130,7 @@ public class MaterialService {
                 //获取商品ids
                 Set<Long> materialIds = list.stream().map(MaterialVo4Unit::getId).collect(Collectors.toSet());
 
-                Map<Long, List<Supplier>> supplierInfoListMap = getMaterialSupplierMap(materialIds);
+//                Map<Long, List<Supplier>> supplierInfoListMap = getMaterialSupplierMap(materialIds);
 
                 //链接
                 Map<Long, List<String>> linkMap = getMaterialLinkMap(materialIds);
@@ -162,7 +159,7 @@ public class MaterialService {
                     m.setLinks(linkMap.get(m.getId()));
 
                     //设置供应商
-                    m.setSupplierList(supplierInfoListMap.get(m.getId()));
+//                    m.setSupplierList(supplierInfoListMap.get(m.getId()));
 
                     resList.add(m);
                 }
@@ -176,46 +173,46 @@ public class MaterialService {
 
 
     //通过商品ids获取到对应供应商信息
-    private Map<Long, List<Supplier>> getMaterialSupplierMap(Collection<Long> materialIds) {
-        //商品id-供应商列表信息
-        Map<Long, List<Supplier>> supplierInfoListMap = new HashMap<>();
-        if (CollectionUtils.isEmpty(materialIds)) {
-            return supplierInfoListMap;
-        }
-
-        List<MaterialSupplier> materialSupplierList = materialSupplierMapper.queryByMaterialIds(materialIds);
-        //获取供应商map
-        Map<Long, Supplier> supplierInfoMap = new HashMap<>();
-
-        if (!CollectionUtils.isEmpty(materialSupplierList)) {
-            Set<Long> supplierIds = materialSupplierList.stream().map(MaterialSupplier::getSupplierId).collect(Collectors.toSet());
-            List<Supplier> suppliersInfos = supplierService.selectByIds(supplierIds);
-            supplierInfoMap = suppliersInfos.stream().filter(x -> "供应商".equals(x.getType())).collect(Collectors.toMap(Supplier::getId, x -> x));
-
-            for (MaterialSupplier materialSupplier : materialSupplierList) {
-                Long materialId = materialSupplier.getMaterialId();
-                Long supplierId = materialSupplier.getSupplierId();
-                //如果为空
-                if (CollectionUtils.isEmpty(supplierInfoListMap.get(materialId))) {
-                    List<Supplier> suppliers = new ArrayList<>();
-                    Supplier supplier = supplierInfoMap.get(supplierId);
-                    if (supplier!=null){
-                        suppliers.add(supplier);
-                    }
-                    if (!CollectionUtils.isEmpty(suppliers)){
-                        supplierInfoListMap.put(materialId, suppliers);
-                    }
-                } else {
-                    List<Supplier> suppliers = supplierInfoListMap.get(materialId);
-                    Supplier supplier = supplierInfoMap.get(supplierId);
-                    if (supplier!=null&&!suppliers.contains(supplier)) {
-                        suppliers.add(supplier);
-                    }
-                }
-            }
-        }
-        return supplierInfoListMap;
-    }
+//    private Map<Long, List<Supplier>> getMaterialSupplierMap(Collection<Long> materialIds) {
+//        //商品id-供应商列表信息
+//        Map<Long, List<Supplier>> supplierInfoListMap = new HashMap<>();
+//        if (CollectionUtils.isEmpty(materialIds)) {
+//            return supplierInfoListMap;
+//        }
+//
+//        List<MaterialSupplier> materialSupplierList = materialSupplierMapper.queryByMaterialIds(materialIds);
+//        //获取供应商map
+//        Map<Long, Supplier> supplierInfoMap = new HashMap<>();
+//
+//        if (!CollectionUtils.isEmpty(materialSupplierList)) {
+//            Set<Long> supplierIds = materialSupplierList.stream().map(MaterialSupplier::getSupplierId).collect(Collectors.toSet());
+//            List<Supplier> suppliersInfos = supplierService.selectByIds(supplierIds);
+//            supplierInfoMap = suppliersInfos.stream().filter(x -> "供应商".equals(x.getType())).collect(Collectors.toMap(Supplier::getId, x -> x));
+//
+//            for (MaterialSupplier materialSupplier : materialSupplierList) {
+//                Long materialId = materialSupplier.getMaterialId();
+//                Long supplierId = materialSupplier.getSupplierId();
+//                //如果为空
+//                if (CollectionUtils.isEmpty(supplierInfoListMap.get(materialId))) {
+//                    List<Supplier> suppliers = new ArrayList<>();
+//                    Supplier supplier = supplierInfoMap.get(supplierId);
+//                    if (supplier!=null){
+//                        suppliers.add(supplier);
+//                    }
+//                    if (!CollectionUtils.isEmpty(suppliers)){
+//                        supplierInfoListMap.put(materialId, suppliers);
+//                    }
+//                } else {
+//                    List<Supplier> suppliers = supplierInfoListMap.get(materialId);
+//                    Supplier supplier = supplierInfoMap.get(supplierId);
+//                    if (supplier!=null&&!suppliers.contains(supplier)) {
+//                        suppliers.add(supplier);
+//                    }
+//                }
+//            }
+//        }
+//        return supplierInfoListMap;
+//    }
 
     //通过商品ids获取到对应电商链接map
     private Map<Long, List<String>> getMaterialLinkMap(Collection<Long> materialIds) {
@@ -258,20 +255,20 @@ public class MaterialService {
                 mId = materials.get(0).getId();
             }
             //商品-供应商
-            String supplierStr = obj.getString("supplierList");
-            if (StringUtil.isNotEmpty(supplierStr)) {
-                List<Long> supplierIds = JsonUtils.StrToLongList(supplierStr);
-
-                List<MaterialSupplier> materialSupplierList = new ArrayList<>();
-                for (Long supplierId : supplierIds) {
-                    MaterialSupplier materialSupplier = new MaterialSupplier();
-                    materialSupplier.setMaterialId(mId);
-                    materialSupplier.setSupplierId(supplierId);
-                    materialSupplier.setCreateTime(new Date());
-                    materialSupplierList.add(materialSupplier);
-                }
-                materialSupplierMapper.batchInsert(materialSupplierList);
-            }
+//            String supplierStr = obj.getString("supplierList");
+//            if (StringUtil.isNotEmpty(supplierStr)) {
+//                List<Long> supplierIds = JsonUtils.StrToLongList(supplierStr);
+//
+//                List<MaterialSupplier> materialSupplierList = new ArrayList<>();
+//                for (Long supplierId : supplierIds) {
+//                    MaterialSupplier materialSupplier = new MaterialSupplier();
+//                    materialSupplier.setMaterialId(mId);
+//                    materialSupplier.setSupplierId(supplierId);
+//                    materialSupplier.setCreateTime(new Date());
+//                    materialSupplierList.add(materialSupplier);
+//                }
+//                materialSupplierMapper.batchInsert(materialSupplierList);
+//            }
 
             //商品-电商链接
             String linksStr = obj.getString("links");
@@ -337,20 +334,20 @@ public class MaterialService {
             }
 
             //设置供应商
-            String supplierStr = obj.getString("supplierList");
-            if (StringUtil.isNotEmpty(supplierStr)) {
-                List<Long> supplierIds = JsonUtils.StrToLongList(supplierStr);
-
-                List<MaterialSupplier> materialSupplierList = new ArrayList<>();
-                for (Long supplierId : supplierIds) {
-                    MaterialSupplier materialSupplier = new MaterialSupplier();
-                    materialSupplier.setMaterialId(material.getId());
-                    materialSupplier.setSupplierId(supplierId);
-                    materialSupplier.setCreateTime(new Date());
-                    materialSupplierList.add(materialSupplier);
-                }
-                materialSupplierMapper.batchInsert(materialSupplierList);
-            }
+//            String supplierStr = obj.getString("supplierList");
+//            if (StringUtil.isNotEmpty(supplierStr)) {
+//                List<Long> supplierIds = JsonUtils.StrToLongList(supplierStr);
+//
+//                List<MaterialSupplier> materialSupplierList = new ArrayList<>();
+//                for (Long supplierId : supplierIds) {
+//                    MaterialSupplier materialSupplier = new MaterialSupplier();
+//                    materialSupplier.setMaterialId(material.getId());
+//                    materialSupplier.setSupplierId(supplierId);
+//                    materialSupplier.setCreateTime(new Date());
+//                    materialSupplierList.add(materialSupplier);
+//                }
+//                materialSupplierMapper.batchInsert(materialSupplierList);
+//            }
 
             //设置电商链接
             String linksStr = obj.getString("links");
@@ -561,10 +558,9 @@ public class MaterialService {
             //电商链接
             Map<Long, List<String>> linkMap = getMaterialLinkMap(ids);
             //供应商
-            Map<Long, List<Supplier>> materialSupplierMap = getMaterialSupplierMap(ids);
+//            Map<Long, List<Supplier>> materialSupplierMap = getMaterialSupplierMap(ids);
             list.stream().forEach(x -> {
                 x.setLinks(linkMap.get(x.getId()));
-                x.setSupplierList(materialSupplierMap.get(x.getId()));
             });
         } catch (Exception e) {
             JshException.readFail(logger, e);
@@ -1040,10 +1036,9 @@ public class MaterialService {
         }
         Set<Long> ids = list.stream().map(MaterialVo4Unit::getId).collect(Collectors.toSet());
         Map<Long, List<String>> linkMap = getMaterialLinkMap(ids);
-        Map<Long, List<Supplier>> materialSupplierMap = getMaterialSupplierMap(ids);
+//        Map<Long, List<Supplier>> materialSupplierMap = getMaterialSupplierMap(ids);
         list.stream().forEach(x -> {
             x.setLinks(linkMap.get(x.getId()));
-            x.setSupplierList(materialSupplierMap.get(x.getId()));
         });
         return list;
     }

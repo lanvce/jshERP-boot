@@ -342,6 +342,12 @@ public class ExceptionConstants {
     //单据录入-商品条码XXX的数量需要修改下
     public static final int DEPOT_HEAD_NUMBER_NEED_EDIT_FAILED_CODE = 85000014;
     public static final String DEPOT_HEAD_NUMBER_NEED_EDIT_FAILED_MSG = "商品条码%s的数量需要修改下";
+    //单据反审核-只有已审核的单据才能转到销售
+    public static final int DEPOT_HEAD_AUDIT_TO_SALE_FAILED_CODE = 8500015;
+    public static final String DEPOT_HEAD_AUDIT_TO_SALE_FAILED_MSG = "抱歉，只有已审核的单据才能转到销售";
+    //单据反审核-只有正在销售的单据才能转到完成销售
+    public static final int DEPOT_HEAD_SALE_TO_SALED_FAILED_CODE = 8500016;
+    public static final String DEPOT_HEAD_SALE_TO_SALED_FAILED_CODE_MSG = "抱歉，只有正在销售的单据才能转到完成销售";
     /**
      *  单据明细信息
      * type = 90

@@ -237,6 +237,9 @@ public class MaterialController {
                     item.put("enableBatchNumber", material.getEnableBatchNumber());
                     item.put("supplierList",material.getSupplierList());
                     item.put("links",material.getLinks());
+                    item.put("purchaseDecimal",material.getPurchaseDecimal());
+                    item.put("dropshippingDecimal",material.getDropshippingDecimal());
+
                     BigDecimal stock;
                     if(StringUtil.isNotEmpty(material.getSku())){
                         stock = depotItemService.getSkuStockByParam(depotId,material.getMeId(),null,null);

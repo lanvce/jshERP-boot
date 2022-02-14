@@ -31,8 +31,6 @@
     <result column="tenant_id" jdbcType="BIGINT" property="tenantId" />
     <result column="delete_flag" jdbcType="VARCHAR" property="deleteFlag" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="customer" jdbcType="BIGINT" property="customer" />
-
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -96,7 +94,7 @@
     id, type, sub_type, default_number, number, create_time, oper_time, organ_id, creator, 
     account_id, change_amount, back_amount, total_price, pay_type, bill_type, remark, 
     file_name, sales_man, account_id_list, account_money_list, discount, discount_money, 
-    discount_last_money, other_money, status, link_number, tenant_id, delete_flag,name,customer
+    discount_last_money, other_money, status, link_number, tenant_id, delete_flag,name
   </sql>
   <select id="selectByExample" parameterType="com.jsh.erp.datasource.entities.DepotHeadExample" resultMap="BaseResultMap">
     select

@@ -99,7 +99,7 @@ public class DepotHeadService {
     }
 
     public List<DepotHeadVo4List> select(String type, String subType, String roleType, String status, String number, String linkNumber,
-           String beginTime, String endTime, String materialParam, Long organId, Long creator, Long depotId, int offset, int rows,String name ,Long customer) throws Exception {
+           String beginTime, String endTime, String materialParam, Long organId, Long creator, Long depotId, int offset, int rows,String name ) throws Exception {
         List<DepotHeadVo4List> resList = new ArrayList<>();
         List<DepotHeadVo4List> list=new ArrayList<>();
         try{
@@ -111,7 +111,7 @@ public class DepotHeadService {
             beginTime = Tools.parseDayToTime(beginTime,BusinessConstants.DAY_FIRST_TIME);
             endTime = Tools.parseDayToTime(endTime,BusinessConstants.DAY_LAST_TIME);
             list=depotHeadMapperEx.selectByConditionDepotHead(type, subType, creatorArray, statusArray, number, linkNumber, beginTime, endTime,
-                 materialParam, organId, creator, depotId, depotArray, offset, rows,name,customer);
+                 materialParam, organId, creator, depotId, depotArray, offset, rows,name);
             if (null != list) {
                 for (DepotHeadVo4List dh : list) {
                     if(accountMap!=null && StringUtil.isNotEmpty(dh.getAccountIdList()) && StringUtil.isNotEmpty(dh.getAccountMoneyList())) {
@@ -395,6 +395,22 @@ public class DepotHeadService {
                 } else {
                     throw new BusinessRunTimeException(ExceptionConstants.DEPOT_HEAD_UN_AUDIT_TO_AUDIT_FAILED_CODE,
                             String.format(ExceptionConstants.DEPOT_HEAD_UN_AUDIT_TO_AUDIT_FAILED_MSG));
+                }
+            }
+            else if("2".equals(status)){
+                if("1".equals(depotHead.getStatus())) {
+                    dhIds.add(id);
+                } else {
+                    throw new BusinessRunTimeException(ExceptionConstants.DEPOT_HEAD_AUDIT_TO_SALE_FAILED_CODE,
+                            String.format(ExceptionConstants.DEPOT_HEAD_AUDIT_TO_SALE_FAILED_MSG));
+                }
+            }
+            else if("3".equals(status)){
+                if("2".equals(depotHead.getStatus())) {
+                    dhIds.add(id);
+                } else {
+                    throw new BusinessRunTimeException(ExceptionConstants.DEPOT_HEAD_SALE_TO_SALED_FAILED_CODE,
+                            String.format(ExceptionConstants.DEPOT_HEAD_SALE_TO_SALED_FAILED_CODE_MSG));
                 }
             }
         }

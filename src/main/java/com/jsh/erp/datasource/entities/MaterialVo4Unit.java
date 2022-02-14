@@ -17,6 +17,8 @@ public class MaterialVo4Unit extends Material{
 
     private BigDecimal dropshippingDecimal;
 
+    private BigDecimal costDecimal;
+
     private BigDecimal commodityDecimal;
 
     private BigDecimal wholesaleDecimal;
@@ -44,6 +46,14 @@ public class MaterialVo4Unit extends Material{
     private List<Supplier> supplierList;
 
     private List<String> links;
+
+    public BigDecimal getCostDecimal() {
+        return costDecimal;
+    }
+
+    public void setCostDecimal(BigDecimal costDecimal) {
+        this.costDecimal = costDecimal;
+    }
 
     public BigDecimal getDropshippingDecimal() {
         return dropshippingDecimal;

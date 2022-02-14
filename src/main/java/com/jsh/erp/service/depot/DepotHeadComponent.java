@@ -47,7 +47,7 @@ public class DepotHeadComponent implements ICommonQuery {
         Long creator = StringUtil.parseStrLong(StringUtil.getInfo(search, "creator"));
         Long depotId = StringUtil.parseStrLong(StringUtil.getInfo(search, "depotId"));
         return depotHeadService.select(type, subType, roleType, status, number, linkNumber, beginTime, endTime, materialParam,
-                organId, creator, depotId, QueryUtils.offset(map), QueryUtils.rows(map),name,customer);
+                organId, creator, depotId, QueryUtils.offset(map), QueryUtils.rows(map),name);
     }
 
     @Override

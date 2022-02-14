@@ -35,16 +35,6 @@ public class DepotHeadVo4List extends DepotHead{
 
     private String address;
 
-//    private String customerName;
-//
-//    public String getCustomerName() {
-//        return customerName;
-//    }
-//
-//    public void setCustomerName(String customerName) {
-//        this.customerName = customerName;
-//    }
-
     public String getProjectName() {
         return projectName;
     }

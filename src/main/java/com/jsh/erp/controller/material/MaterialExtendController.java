@@ -57,9 +57,12 @@ public class MaterialExtendController {
                     }
                     item.put("purchaseDecimal", md.getPurchaseDecimal());
                     item.put("dropshippingDecimal", md.getDropshippingDecimal());
+                    item.put("costDecimal", md.getCostDecimal());
                     item.put("commodityDecimal", md.getCommodityDecimal());
                     item.put("wholesaleDecimal", md.getWholesaleDecimal());
                     item.put("lowDecimal", md.getLowDecimal());
+                    item.put("supplierId", md.getSupplierId());
+
                     dataArray.add(item);
                 }
             }
