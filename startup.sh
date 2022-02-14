@@ -1,3 +1,4 @@
+#此脚本时windows上创建的 到linux上jenkins构建会报错 所以直接把这个命令复制过去
 DATE=$(date +%Y%m%d)
 export JAVA_HOME PATH CLASSPATH
 JAVA_HOME=/opt/jdk1.8.0_311/
