@@ -50,6 +50,16 @@ public class DepotItemVo4WithInfoEx extends DepotItem{
 
     private String imgName;
 
+    private String supplierName;
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
     public String getImgName() {
         return imgName;
     }

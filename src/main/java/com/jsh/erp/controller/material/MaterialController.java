@@ -235,7 +235,8 @@ public class MaterialController {
                     item.put("sku", material.getSku());
                     item.put("enableSerialNumber", material.getEnableSerialNumber());
                     item.put("enableBatchNumber", material.getEnableBatchNumber());
-                    item.put("supplierList",material.getSupplierList());
+                    item.put("supplier",material.getSupplierId());
+                    item.put("supplierName",material.getSupplierName());
                     item.put("links",material.getLinks());
                     item.put("purchaseDecimal",material.getPurchaseDecimal());
                     item.put("dropshippingDecimal",material.getDropshippingDecimal());

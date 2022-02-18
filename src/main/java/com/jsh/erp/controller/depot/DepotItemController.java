@@ -220,7 +220,8 @@ public class DepotItemController {
                     item.put("taxLastMoney", diEx.getTaxLastMoney());
                     item.put("mType", diEx.getMaterialType());
                     item.put("op", 1);
-                    item.put("supplier", diEx.getSupplier());
+                    item.put("supplierId", diEx.getSupplier());
+                    item.put("supplier", diEx.getSupplierName());
                     item.put("brand", diEx.getBrand());
                     item.put("quoteType", diEx.getQuoteType()==1?"代发":"集采");
                     dataArray.add(item);

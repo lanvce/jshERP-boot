@@ -200,6 +200,9 @@ public class MaterialExtendService {
                 if (StringUtils.isNotEmpty(tempUpdatedJson.getString("lowDecimal"))) {
                     materialExtend.setLowDecimal(tempUpdatedJson.getBigDecimal("lowDecimal"));
                 }
+                if (null!=tempUpdatedJson.getLong("supplierId")) {
+                    materialExtend.setSupplierId(tempUpdatedJson.getLong("supplierId"));
+                }
                 this.updateMaterialExtend(materialExtend);
             }
         }

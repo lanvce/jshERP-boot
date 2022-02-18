@@ -471,6 +471,9 @@ public class DepotItemService {
                 if (StringUtil.isExist(rowObj.get("remark"))) {
                     depotItem.setRemark(rowObj.getString("remark"));
                 }
+                if (StringUtil.isExist(rowObj.get("supplierId"))) {
+                    depotItem.setSupplier(rowObj.getLong("supplierId"));
+                }
                 //出库时判断库存是否充足
                 if(BusinessConstants.DEPOTHEAD_TYPE_OUT.equals(depotHead.getType())){
                     if(depotItem==null){

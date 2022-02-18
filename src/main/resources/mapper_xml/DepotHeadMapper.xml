@@ -136,7 +136,7 @@
       account_id_list, account_money_list, discount, 
       discount_money, discount_last_money, other_money, 
       status, link_number, tenant_id, 
-      delete_flag,name,customer)
+      delete_flag,name)
     values (#{id,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, #{subType,jdbcType=VARCHAR}, 
       #{defaultNumber,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{operTime,jdbcType=TIMESTAMP}, #{organId,jdbcType=BIGINT}, #{creator,jdbcType=BIGINT}, 
@@ -146,7 +146,7 @@
       #{accountIdList,jdbcType=VARCHAR}, #{accountMoneyList,jdbcType=VARCHAR}, #{discount,jdbcType=DECIMAL}, 
       #{discountMoney,jdbcType=DECIMAL}, #{discountLastMoney,jdbcType=DECIMAL}, #{otherMoney,jdbcType=DECIMAL}, 
       #{status,jdbcType=VARCHAR}, #{linkNumber,jdbcType=VARCHAR}, #{tenantId,jdbcType=BIGINT}, 
-      #{deleteFlag,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{customer,jdbcType=BIGINT})
+      #{deleteFlag,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.DepotHead">
     insert into jsh_depot_head
@@ -238,9 +238,6 @@
       <if test="name != null">
         name,
       </if>
-      <if test="customer != null">
-        customer
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -330,9 +327,6 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="customer != null">
-      #{customer,jdbcType=BIGINT}
-    </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.DepotHeadExample" resultType="java.lang.Long">
@@ -431,9 +425,6 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.customer != null">
-        customer = #{record.customer,jdbcType=BIGINT},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -469,8 +460,7 @@
       link_number = #{record.linkNumber,jdbcType=VARCHAR},
       tenant_id = #{record.tenantId,jdbcType=BIGINT},
       delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
-      customer = #{record.customer,jdbcType=BIGINT}
+      name = #{record.name,jdbcType=VARCHAR}
 
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -563,9 +553,7 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="customer != null">
-        customer = #{customer,jdbcType=BIGINT}
-      </if>
+
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -599,7 +587,6 @@
       tenant_id = #{tenantId,jdbcType=BIGINT},
       delete_flag = #{deleteFlag,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      customer = #{customer,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -557,8 +557,6 @@ public class MaterialService {
             Set<Long> ids = list.stream().map(MaterialVo4Unit::getId).collect(Collectors.toSet());
             //电商链接
             Map<Long, List<String>> linkMap = getMaterialLinkMap(ids);
-            //供应商
-//            Map<Long, List<Supplier>> materialSupplierMap = getMaterialSupplierMap(ids);
             list.stream().forEach(x -> {
                 x.setLinks(linkMap.get(x.getId()));
             });

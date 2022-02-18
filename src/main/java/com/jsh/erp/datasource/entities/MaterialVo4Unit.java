@@ -43,9 +43,27 @@ public class MaterialVo4Unit extends Material{
 
     private Long depotId;
 
-    private List<Supplier> supplierList;
-
     private List<String> links;
+
+    private Long supplierId;
+
+    private String supplierName;
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public Long getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
+    }
 
     public BigDecimal getCostDecimal() {
         return costDecimal;
@@ -69,14 +87,6 @@ public class MaterialVo4Unit extends Material{
 
     public void setLinks(List<String> links) {
         this.links = links;
-    }
-
-    public List<Supplier> getSupplierList() {
-        return supplierList;
-    }
-
-    public void setSupplierList(List<Supplier> supplierList) {
-        this.supplierList = supplierList;
     }
 
     public String getUnitName() {

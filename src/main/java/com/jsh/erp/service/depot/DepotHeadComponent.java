@@ -42,7 +42,6 @@ public class DepotHeadComponent implements ICommonQuery {
         String materialParam = StringUtil.getInfo(search, "materialParam");
         String name=StringUtil.getInfo(search, "name");
 
-        Long customer=StringUtil.parseStrLong(StringUtil.getInfo(search, "customer"));
         Long organId = StringUtil.parseStrLong(StringUtil.getInfo(search, "organId"));
         Long creator = StringUtil.parseStrLong(StringUtil.getInfo(search, "creator"));
         Long depotId = StringUtil.parseStrLong(StringUtil.getInfo(search, "depotId"));
