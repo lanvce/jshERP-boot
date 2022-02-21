@@ -364,7 +364,9 @@ public class MaterialController {
         try {
             List<MaterialVo4Unit> dataList = materialService.findByAll(StringUtil.toNull(barCode), StringUtil.toNull(name),
                     StringUtil.toNull(standard), StringUtil.toNull(model), StringUtil.toNull(categoryId));
+//            String[] names = {"名称", "类型", "型号", "单位", "零售价", "最低售价", "采购价", "销售价", "备注", "状态"};
             String[] names = {"名称", "类型", "型号", "单位", "零售价", "最低售价", "采购价", "销售价", "备注", "状态"};
+
             String title = "商品信息";
             List<String[]> objects = new ArrayList<String[]>();
             if (null != dataList) {

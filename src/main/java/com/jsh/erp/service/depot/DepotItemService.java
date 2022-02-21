@@ -56,6 +56,9 @@ public class DepotItemService {
     @Value(value = "${file.path}")
     private String imgPath;
 
+    @Value(value="${template.path}")
+    private String templatePath;
+
     @Resource
     private DepotItemMapper depotItemMapper;
     @Resource
@@ -770,7 +773,8 @@ public class DepotItemService {
                 customerInfo = supplierService.getSupplier(depotHead.getOrganId());
             }
 
-            String templatePath = this.getClass().getClassLoader().getResource("template").getPath();
+//            String templatePath = this.getClass().getClassLoader().getResource("template").getPath();
+
             System.out.println("templatePath:" + templatePath);
             TemplateExportParams params = new TemplateExportParams(templatePath + File.separator + "orderList.xlsx");
             Map<String, Object> map = new HashMap<String, Object>();
