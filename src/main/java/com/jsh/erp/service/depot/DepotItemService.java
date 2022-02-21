@@ -43,6 +43,7 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DepotItemService {
@@ -81,6 +82,8 @@ public class DepotItemService {
     private MaterialCurrentStockMapper materialCurrentStockMapper;
     @Resource
     private LogService logService;
+    @Resource
+    private MaterialLinkMapper materialLinkMapper;
 
     @Resource
     private SupplierService supplierService;
@@ -791,6 +794,15 @@ public class DepotItemService {
             BigDecimal sumPrice = new BigDecimal(0);
             DecimalFormat df = new DecimalFormat("#0.00");
 
+            //商品Ids
+            Set<Long> mids = detailList.stream().map(DepotItemVo4WithInfoEx::getMaterialId).collect(Collectors.toSet());
+            //商品在电商平台链接
+            List<MaterialLink> materialLinks = materialLinkMapper.queryByMaterialIds(mids);
+            Map<Long,List<String>> midLinkMap=new HashMap<>();
+            if (!CollectionUtils.isEmpty(materialLinks)){
+                midLinkMap=materialLinks.stream().collect(Collectors.groupingBy(MaterialLink::getMaterialId,Collectors.mapping(MaterialLink::getLink,Collectors.toList())));
+            }
+
             for (DepotItemVo4WithInfoEx i : detailList) {
                 number++;
                 Map<String, Object> lm = new HashMap<String, Object>();
@@ -821,6 +833,10 @@ public class DepotItemService {
                     image.setUrl(imgUrl);
                     lm.put("img", image);
                 }
+
+                //商品链接
+                List<String> links = midLinkMap.get(i.getMaterialId());
+                lm.put("link",CollectionUtils.isEmpty(links)?"":links.get(0));
 
                 //参数
                 StringBuilder stringBuilder = new StringBuilder();
