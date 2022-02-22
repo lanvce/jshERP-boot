@@ -779,7 +779,7 @@ public class DepotItemService {
 //            String templatePath = this.getClass().getClassLoader().getResource("template").getPath();
 
             System.out.println("templatePath:" + templatePath);
-            TemplateExportParams params = new TemplateExportParams(templatePath + File.separator + "orderList.xlsx");
+            TemplateExportParams params = new TemplateExportParams(templatePath + File.separator + "orderList2.xlsx");
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("date", Tools.getNow());
             map.put("billId", depotHead.getDefaultNumber());
@@ -826,7 +826,7 @@ public class DepotItemService {
 
                 //图片地址
                 ImageEntity image = new ImageEntity();
-                image.setHeight(200);
+                image.setHeight(500);
                 image.setWidth(500);
                 String imgUrl = imgPath + File.separator + i.getImgName();
                 if (StringUtil.isNotEmpty(imgUrl)) {
