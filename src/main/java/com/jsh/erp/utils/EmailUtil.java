@@ -1,5 +1,6 @@
 package com.jsh.erp.utils;
 
+import com.jsh.erp.constants.BusinessConstants;
 import org.apache.log4j.Logger;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -90,7 +91,7 @@ public class EmailUtil {
         messageHelper.setTo(to);
         // 设置主题
         messageHelper.setSubject(subject);
-        messageHelper.setText(html, true);
+        messageHelper.setText(BusinessConstants.SEND_ORDER_EMIAL_WORDS, false);
         //添加附件
         messageHelper.addAttachment(file.getName(),file);
         //设置抄送

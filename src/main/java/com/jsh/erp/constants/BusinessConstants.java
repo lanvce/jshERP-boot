@@ -188,4 +188,7 @@ public class BusinessConstants {
      * */
     //session的生命周期,秒
     public static final Long MAX_SESSION_IN_SECONDS=60*60*24L;
+
+    public static final String SEND_ORDER_EMIAL_WORDS="您好！\n" +
+            "附件为我司产品报价单，请查收；感谢您的支持；谢谢！";
 }
