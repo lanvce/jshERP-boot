@@ -293,6 +293,13 @@
         and ifnull(me.delete_Flag,'0') !='1'
     </select>
 
+    <select id="getMaxBarCodeByCategoryNum" resultType="java.lang.String">
+        select   max(CAST(bar_code AS SIGNED)) bar_code
+        from jsh_material_extend
+        where bar_code like CONCAT(#{categoryNum},'%')
+        and ifnull(delete_Flag,'0') !='1'
+    </select>
+
     <select id="getMaterialByMeId" parameterType="com.jsh.erp.datasource.entities.MaterialExample" resultMap="ResultMapList">
         select m.*,me.bar_code,u.name unitName, mc.name categoryName
         FROM jsh_material m

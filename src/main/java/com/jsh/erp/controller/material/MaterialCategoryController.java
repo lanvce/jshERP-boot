@@ -79,6 +79,7 @@ public class MaterialCategoryController {
                     outer.put("sort", mc.getSort());
                     outer.put("serialNo", mc.getSerialNo());
                     outer.put("remark", mc.getRemark());
+                    outer.put("profitRate",mc.getProfitRate());
                 }
             }
             res.code = 200;

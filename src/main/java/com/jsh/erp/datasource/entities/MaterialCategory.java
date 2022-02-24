@@ -21,9 +21,19 @@ public class MaterialCategory {
 
     private Date updateTime;
 
+    private Double profitRate;
+
     private Long tenantId;
 
     private String deleteFlag;
+
+    public Double getProfitRate() {
+        return profitRate;
+    }
+
+    public void setProfitRate(Double profitRate) {
+        this.profitRate = profitRate;
+    }
 
     public Long getId() {
         return id;

@@ -1058,3 +1058,5 @@ alter table jsh_depot_head add ( name varchar(500) default '' COMMENT "单据名
 alter table jsh_material_extend add ( cost_decimal decimal(24, 6) NULL DEFAULT NULL COMMENT '成本价格');
 alter table jsh_material_extend add ( supplier_id bigint(0) NULL DEFAULT NULL  COMMENT "供应商id");
 
+#增加分类对应的利润点
+alter table jsh_material_category add ( profit_rate double NOT NULL DEFAULT 3.00  COMMENT "利润点 默认3");

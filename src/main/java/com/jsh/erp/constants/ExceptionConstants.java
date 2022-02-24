@@ -211,6 +211,7 @@ public class ExceptionConstants {
     //修改商品扩展信息失败
     public static final int MATERIAL_PROPERTY_EDIT_FAILED_CODE = 6000002;
     public static final String MATERIAL_PROPERTY_EDIT_FAILED_MSG = "修改商品扩展信息失败";
+
     /**
      *  账户信息
      * type = 65
@@ -262,6 +263,9 @@ public class ExceptionConstants {
     //该类别存在下级不允许删除
     public static final int MATERIAL_CATEGORY_CHILD_NOT_SUPPORT_DELETE_CODE = 7500006;
     public static final String MATERIAL_CATEGORY_CHILD_NOT_SUPPORT_DELETE_MSG = "该类别存在下级不允许删除";
+    //商品分类为空
+    public static final int MATERIAL_CATEGORY_EMPTY_CODE = 7500007;
+    public static final String MATERIAL_CATEGORY_EMPTY_MSG = "商品分类为空";
     /**
      * 商品信息
      * type = 80

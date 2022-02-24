@@ -445,10 +445,10 @@ public class MaterialController {
      */
     @GetMapping(value = "/getMaxBarCode")
     @ApiOperation(value = "获取最大条码")
-    public BaseResponseInfo getMaxBarCode() throws Exception {
+    public BaseResponseInfo getMaxBarCode(@RequestParam(value = "categoryId", required = true) String categoryId)throws Exception {
         BaseResponseInfo res = new BaseResponseInfo();
         Map<String, Object> map = new HashMap<String, Object>();
-        String barCode = materialService.getMaxBarCode();
+        String barCode = materialService.getMaxBarCode(categoryId);
         map.put("barCode", barCode);
         res.code = 200;
         res.data = map;

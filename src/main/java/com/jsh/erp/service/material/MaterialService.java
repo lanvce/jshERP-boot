@@ -1013,12 +1013,17 @@ public class MaterialService {
         return result;
     }
 
-    public String getMaxBarCode() {
-        String maxBarCodeOld = materialMapperEx.getMaxBarCode();
-        if (StringUtil.isNotEmpty(maxBarCodeOld)) {
+    public String getMaxBarCode(String categoryId) throws Exception {
+        if (StringUtil.isEmpty(categoryId)){
+            throw new BusinessRunTimeException(ExceptionConstants.MATERIAL_CATEGORY_EMPTY_CODE,ExceptionConstants.MATERIAL_CATEGORY_EMPTY_MSG);
+        }
+        //获取到该分类对应的编码
+        MaterialCategory materialCategory = materialCategoryService.getMaterialCategory(Long.valueOf(categoryId));
+        String maxBarCodeOld = materialMapperEx.getMaxBarCodeByCategoryNum(materialCategory.getSerialNo());
+        if (StringUtil.isNotEmpty(maxBarCodeOld)&&Long.parseLong(materialCategory.getSerialNo())*1000>Long.parseLong(maxBarCodeOld)) {
             return Long.parseLong(maxBarCodeOld) + "";
         } else {
-            return "1000";
+            return materialCategory.getSerialNo()+"00000";
         }
     }
 

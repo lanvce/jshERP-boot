@@ -151,6 +151,9 @@ public class MaterialExtendService {
                 if (StringUtils.isNotEmpty(tempInsertedJson.getString("lowDecimal"))) {
                     materialExtend.setLowDecimal(tempInsertedJson.getBigDecimal("lowDecimal"));
                 }
+                if (StringUtils.isNotEmpty(tempInsertedJson.getString("supplierId"))) {
+                    materialExtend.setSupplierId(tempInsertedJson.getLong("supplierId"));
+                }
                 this.insertMaterialExtend(materialExtend);
             }
         }
