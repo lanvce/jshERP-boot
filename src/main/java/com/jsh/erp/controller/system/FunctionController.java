@@ -2,6 +2,7 @@ package com.jsh.erp.controller.system;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.jsh.erp.datasource.entities.Function;
 import com.jsh.erp.datasource.entities.UserBusiness;
 import com.jsh.erp.service.system.functions.FunctionService;
@@ -164,6 +165,9 @@ public class FunctionController {
         String ubValue = userBusinessService.getUBValueByTypeAndKeyId(type, keyId);
         if (null != dataList) {
             for (Function function : dataList) {
+                if (StringUtils.isNotEmpty(function.getName())&&function.getName().equals("商品类别")){
+                    continue;
+                }
                 JSONObject item = new JSONObject();
                 item.put("id", function.getId());
                 item.put("key", function.getId());
