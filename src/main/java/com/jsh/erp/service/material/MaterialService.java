@@ -1023,7 +1023,7 @@ public class MaterialService {
         if (StringUtil.isNotEmpty(maxBarCodeOld)&&Long.parseLong(materialCategory.getSerialNo())*1000>Long.parseLong(maxBarCodeOld)) {
             return Long.parseLong(maxBarCodeOld) + "";
         } else {
-            return materialCategory.getSerialNo()+"00000";
+            return materialCategory.getSerialNo()+"000000";
         }
     }
 
