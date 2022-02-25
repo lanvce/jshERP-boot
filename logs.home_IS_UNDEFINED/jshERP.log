@@ -6451,3 +6451,7 @@ java.lang.RuntimeException: 文件不存在..
 2022/02/26-01:32:08 DEBUG [main] com.jsh.erp.ErpApplication - Running with Spring Boot v2.0.0.RELEASE, Spring v5.0.4.RELEASE
 2022/02/26-01:32:08 INFO  [main] com.jsh.erp.ErpApplication - No active profile set, falling back to default profiles: default
 2022/02/26-01:32:14 INFO  [main] com.jsh.erp.ErpApplication - Started ErpApplication in 6.394 seconds (JVM running for 7.333)
+2022/02/26-02:01:14 INFO  [main] com.jsh.erp.ErpApplication - Starting ErpApplication on DESKTOP-THFROJH with PID 4800 (C:\Users\lanvce\Lanvce\project\jsh-boot\target\classes started by lanvce in C:\Users\lanvce\Lanvce\project\jsh-boot)
+2022/02/26-02:01:14 DEBUG [main] com.jsh.erp.ErpApplication - Running with Spring Boot v2.0.0.RELEASE, Spring v5.0.4.RELEASE
+2022/02/26-02:01:14 INFO  [main] com.jsh.erp.ErpApplication - No active profile set, falling back to default profiles: default
+2022/02/26-02:01:21 INFO  [main] com.jsh.erp.ErpApplication - Started ErpApplication in 7.638 seconds (JVM running for 9.399)
