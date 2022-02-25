@@ -1020,7 +1020,8 @@ public class MaterialService {
         //获取到该分类对应的编码
         MaterialCategory materialCategory = materialCategoryService.getMaterialCategory(Long.valueOf(categoryId));
         String maxBarCodeOld = materialMapperEx.getMaxBarCodeByCategoryNum(materialCategory.getSerialNo());
-        if (StringUtil.isNotEmpty(maxBarCodeOld)&&Long.parseLong(materialCategory.getSerialNo())*1000>Long.parseLong(maxBarCodeOld)) {
+        int length=materialCategory.getSerialNo().length()+6;
+        if (StringUtil.isNotEmpty(maxBarCodeOld)&&maxBarCodeOld.length()==length) {
             return Long.parseLong(maxBarCodeOld) + "";
         } else {
             return materialCategory.getSerialNo()+"000000";
