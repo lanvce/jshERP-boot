@@ -1,5 +1,8 @@
 package com.jsh.erp.controller.material;
 
+import cn.afterturn.easypoi.entity.ImageEntity;
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jsh.erp.datasource.entities.*;
@@ -12,17 +15,22 @@ import com.jsh.erp.utils.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jxl.Sheet;
-import jxl.Workbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.*;
 
 import static com.jsh.erp.utils.ResponseJsonUtil.returnJson;
@@ -50,6 +58,13 @@ public class MaterialController {
 
     @Resource
     private RedisService redisService;
+
+    @Value(value="${template.path}")
+    private String templatePath;
+
+
+    @Value(value = "${file.path}")
+    private String imgPath;
 
     /**
      * 检查商品是否存在
@@ -365,7 +380,61 @@ public class MaterialController {
             List<MaterialVo4Unit> dataList = materialService.findByAll(StringUtil.toNull(barCode), StringUtil.toNull(name),
                     StringUtil.toNull(standard), StringUtil.toNull(model), StringUtil.toNull(categoryId));
 
+            TemplateExportParams params = new TemplateExportParams(templatePath + File.separator + "materialList.xls");
+            Map<String, Object> map = new HashMap<String, Object>();
 
+            List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
+            for (MaterialVo4Unit i :dataList){
+                Map<String, Object> lm = new HashMap<String, Object>();
+                lm.put("name", i.getName());
+                lm.put("standard", i.getStandard());
+                lm.put("brand", i.getBrand());
+                lm.put("color", i.getColor());
+                lm.put("category", i.getCategoryName());
+                lm.put("barCode", i.getmBarCode());
+                lm.put("unit", i.getUnit());
+                lm.put("supplier", i.getSupplierName());
+                lm.put("dropShippingDecimal", i.getDropshippingDecimal());
+                lm.put("purchaseDecimal", i.getPurchaseDecimal());
+                lm.put("commodityDecimal", i.getCommodityDecimal());
+                lm.put("links", i.getLinks());
+                //图片地址
+                ImageEntity image = new ImageEntity();
+                image.setHeight(500);
+                image.setWidth(500);
+                String imgUrl = imgPath + File.separator + i.getImgName();
+                if (StringUtil.isNotEmpty(imgUrl)) {
+                    image.setUrl(imgUrl);
+                    lm.put("img", image);
+                }
+
+                listMap.add(lm);
+            }
+
+            map.put("list", listMap);
+
+            Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+            String targetPath = templatePath + File.separator + "target";
+            String fileName="商品明细表";
+            File savefile = new File(targetPath);
+            if (!savefile.exists()) {
+                savefile.mkdirs();
+            }
+            File excelFile = new File(targetPath + File.separator + fileName);
+            if (!excelFile.exists()) {
+                excelFile.createNewFile();
+            }
+
+            ServletOutputStream out = response.getOutputStream();
+            response.setContentType("application/x-download");
+            fileName = URLEncoder.encode( "商品明细表", "UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.addHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
+
+            workbook.write(out);
+            workbook.close();
+            out.close();
+            out.flush();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -388,11 +457,11 @@ public class MaterialController {
         try {
             Sheet src = null;
             //文件合法性校验
-            try {
-                Workbook workbook = Workbook.getWorkbook(file.getInputStream());
-                src = workbook.getSheet(0);
-            } catch (Exception e) {
-            }
+//            try {
+//                Workbook workbook = Workbook.getWorkbook(file.getInputStream());
+//                src = workbook.getSheet(0);
+//            } catch (Exception e) {
+//            }
             res = materialService.importExcel(src, request);
         } catch (Exception e) {
             e.printStackTrace();

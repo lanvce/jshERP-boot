@@ -43,7 +43,7 @@ public class MaterialVo4Unit extends Material{
 
     private Long depotId;
 
-    private List<String> links;
+    private String links;
 
     private Long supplierId;
 
@@ -81,11 +81,11 @@ public class MaterialVo4Unit extends Material{
         this.dropshippingDecimal = dropshippingDecimal;
     }
 
-    public List<String> getLinks() {
+    public String getLinks() {
         return links;
     }
 
-    public void setLinks(List<String> links) {
+    public void setLinks(String links) {
         this.links = links;
     }
 

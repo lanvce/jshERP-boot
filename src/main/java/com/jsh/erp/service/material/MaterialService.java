@@ -156,10 +156,18 @@ public class MaterialService {
                     m.setStock(depotItemService.getStockByParam(null, m.getId(), null, null));
 
                     //设置电商链接
-                    m.setLinks(linkMap.get(m.getId()));
+                    List<String> links = linkMap.get(m.getId());
+                    if (!CollectionUtils.isEmpty(links)) {
+                        StringBuilder linkStr = new StringBuilder("");
+                        links.stream().forEach(x->{
+                            if (StringUtil.isNotEmpty(linkStr.toString())){
+                                linkStr.append(",");
+                            }
+                            linkStr.append(x);
 
-                    //设置供应商
-//                    m.setSupplierList(supplierInfoListMap.get(m.getId()));
+                        });
+                        m.setLinks(linkStr.toString());
+                    }
 
                     resList.add(m);
                 }
@@ -557,8 +565,22 @@ public class MaterialService {
             Set<Long> ids = list.stream().map(MaterialVo4Unit::getId).collect(Collectors.toSet());
             //电商链接
             Map<Long, List<String>> linkMap = getMaterialLinkMap(ids);
-            list.stream().forEach(x -> {
-                x.setLinks(linkMap.get(x.getId()));
+
+            list.stream().forEach(x->{
+                //获取到链接的数组
+                List<String> links = linkMap.get(x.getId());
+                if (!CollectionUtils.isEmpty(links)) {
+                    //链接拼接为字符串
+                    StringBuilder linkStr = new StringBuilder("");
+                    links.stream().forEach(y->{
+                        if (StringUtil.isNotEmpty(linkStr.toString())){
+                            linkStr.append(",");
+                        }
+                        linkStr.append(y);
+
+                    });
+                    x.setLinks(linkStr.toString());
+                }
             });
         } catch (Exception e) {
             JshException.readFail(logger, e);
@@ -1039,10 +1061,22 @@ public class MaterialService {
             return new ArrayList<>();
         }
         Set<Long> ids = list.stream().map(MaterialVo4Unit::getId).collect(Collectors.toSet());
+
         Map<Long, List<String>> linkMap = getMaterialLinkMap(ids);
-//        Map<Long, List<Supplier>> materialSupplierMap = getMaterialSupplierMap(ids);
-        list.stream().forEach(x -> {
-            x.setLinks(linkMap.get(x.getId()));
+        list.stream().forEach(x->{
+            //获取到链接的数组
+            List<String> links = linkMap.get(x.getId());
+            if (!CollectionUtils.isEmpty(links)) {
+                //链接拼接为字符串
+                StringBuilder linkStr = new StringBuilder("");
+                links.stream().forEach(y->{
+                    if (StringUtil.isNotEmpty(linkStr.toString())){
+                        linkStr.append(",");
+                    }
+                    linkStr.append(y);
+                });
+                x.setLinks(linkStr.toString());
+            }
         });
         return list;
     }
