@@ -618,6 +618,26 @@ public class MaterialService {
                 idList = getListByParentId(Long.parseLong(categoryId));
             }
             list = materialMapperEx.findByAll(barCode, name, standard, model, idList);
+
+            Set<Long> ids = list.stream().map(MaterialVo4Unit::getId).collect(Collectors.toSet());
+
+            Map<Long, List<String>> linkMap = getMaterialLinkMap(ids);
+            list.stream().forEach(x->{
+                //获取到链接的数组
+                List<String> links = linkMap.get(x.getId());
+                if (!CollectionUtils.isEmpty(links)) {
+                    //链接拼接为字符串
+                    StringBuilder linkStr = new StringBuilder("");
+                    links.stream().forEach(y->{
+                        if (StringUtil.isNotEmpty(linkStr.toString())){
+                            linkStr.append(",");
+                        }
+                        linkStr.append(y);
+                    });
+                    x.setLinks(linkStr.toString());
+                }
+            });
+
         } catch (Exception e) {
             JshException.readFail(logger, e);
         }

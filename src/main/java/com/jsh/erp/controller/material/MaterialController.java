@@ -388,6 +388,7 @@ public class MaterialController {
                 Map<String, Object> lm = new HashMap<String, Object>();
                 lm.put("name", i.getName());
                 lm.put("standard", i.getStandard());
+                lm.put("model", i.getModel());
                 lm.put("brand", i.getBrand());
                 lm.put("color", i.getColor());
                 lm.put("category", i.getCategoryName());

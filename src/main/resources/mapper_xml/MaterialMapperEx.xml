@@ -14,6 +14,7 @@
         <result column="low_decimal" jdbcType="VARCHAR" property="lowDecimal" />
         <result column="sku" jdbcType="VARCHAR" property="sku" />
         <result column="brand" jdbcType="VARCHAR" property="brand" />
+        <result column="supplierName" jdbcType="VARCHAR" property="supplierName"/>
     </resultMap>
 
     <resultMap extends="com.jsh.erp.datasource.mappers.MaterialMapper.BaseResultMap" id="ResultMapListWithStock" type="com.jsh.erp.datasource.entities.MaterialVo4Unit">
@@ -179,9 +180,10 @@
 
     <select id="findByAll" parameterType="com.jsh.erp.datasource.entities.MaterialExample" resultMap="ResultMapList">
         select m.*,u.name unitName, mc.name categoryName,me.commodity_unit,me.purchase_decimal, me.dropshipping_decimal,me.commodity_decimal,
-        me.wholesale_decimal, me.low_decimal
+        me.wholesale_decimal, me.low_decimal,me.bar_code mBarCode,s.supplier supplierName
         FROM jsh_material m
         left join jsh_material_extend me on m.id=me.material_id and ifnull(me.delete_Flag,'0') !='1'
+        left join jsh_supplier s on s.id =me.supplier_id and ifnull(s.delete_Flag,'0') !='1'
         left JOIN jsh_unit u on m.unit_id = u.id and ifnull(u.delete_Flag,'0') !='1'
         left JOIN jsh_material_category mc on m.category_id = mc.id and ifnull(mc.delete_Flag,'0') !='1'
         where 1=1
