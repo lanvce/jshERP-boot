@@ -380,7 +380,7 @@ public class MaterialController {
             List<MaterialVo4Unit> dataList = materialService.findByAll(StringUtil.toNull(barCode), StringUtil.toNull(name),
                     StringUtil.toNull(standard), StringUtil.toNull(model), StringUtil.toNull(categoryId));
 
-            TemplateExportParams params = new TemplateExportParams(templatePath + File.separator + "materialList.xls");
+            TemplateExportParams params = new TemplateExportParams(templatePath + File.separator + "materialList.xlsx");
             Map<String, Object> map = new HashMap<String, Object>();
 
             List<Map<String, Object>> listMap = new ArrayList<Map<String, Object>>();
