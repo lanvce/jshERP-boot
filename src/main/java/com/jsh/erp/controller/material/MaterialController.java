@@ -31,6 +31,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import static com.jsh.erp.utils.ResponseJsonUtil.returnJson;
@@ -395,14 +396,16 @@ public class MaterialController {
                 lm.put("barCode", i.getmBarCode());
                 lm.put("unit", i.getUnit());
                 lm.put("supplier", i.getSupplierName());
-                lm.put("dropShippingDecimal", i.getDropshippingDecimal());
-                lm.put("purchaseDecimal", i.getPurchaseDecimal());
-                lm.put("commodityDecimal", i.getCommodityDecimal());
+
+                DecimalFormat df = new DecimalFormat("0.00");
+                lm.put("dropShippingDecimal", df.format(i.getDropshippingDecimal()));
+                lm.put("purchaseDecimal", df.format(i.getPurchaseDecimal()));
+                lm.put("commodityDecimal", df.format(i.getCommodityDecimal()));
                 lm.put("links", i.getLinks());
                 //图片地址
                 ImageEntity image = new ImageEntity();
-//                image.setHeight(500);
-//                image.setWidth(500);
+                image.setHeight(1000);
+                image.setWidth(1000);
                 String imgUrl = imgPath + File.separator + i.getImgName();
                 if (StringUtil.isNotEmpty(imgUrl)) {
                     image.setUrl(imgUrl);
