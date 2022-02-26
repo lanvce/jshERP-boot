@@ -397,9 +397,9 @@ public class MaterialController {
                 lm.put("barCode", i.getmBarCode());
                 lm.put("unit", i.getUnit());
                 lm.put("supplier", i.getSupplierName());
-                lm.put("dropShippingDecimal", df.format(i.getDropshippingDecimal()));
-                lm.put("purchaseDecimal", df.format(i.getPurchaseDecimal()));
-                lm.put("commodityDecimal", df.format(i.getCommodityDecimal()));
+                lm.put("dropShippingDecimal", i.getDropshippingDecimal()==null?"":df.format(i.getDropshippingDecimal()));
+                lm.put("purchaseDecimal", i.getPurchaseDecimal()==null?"":df.format(i.getPurchaseDecimal()));
+                lm.put("commodityDecimal", i.getCommodityDecimal()==null?"":df.format(i.getCommodityDecimal()));
                 lm.put("links", i.getLinks());
                 //图片地址
                 ImageEntity image = new ImageEntity();
