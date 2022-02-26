@@ -405,8 +405,7 @@ public class MaterialController {
                 ImageEntity image = new ImageEntity();
                 image.setHeight(1000);
                 image.setWidth(1000);
-                image.setRowspan(10);
-                image.setColspan(10);
+
                 String imgUrl = imgPath + File.separator + i.getImgName();
                 if (StringUtil.isNotEmpty(imgUrl)) {
                     image.setUrl(imgUrl);
