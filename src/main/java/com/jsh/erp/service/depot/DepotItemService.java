@@ -779,7 +779,7 @@ public class DepotItemService {
 //            String templatePath = this.getClass().getClassLoader().getResource("template").getPath();
 
             System.out.println("templatePath:" + templatePath);
-            TemplateExportParams params = new TemplateExportParams(templatePath + File.separator + "orderList3.xlsx");
+            TemplateExportParams params = new TemplateExportParams(templatePath + File.separator + "orderList.xlsx");
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("date", Tools.getNow());
             map.put("billId", depotHead.getDefaultNumber());
