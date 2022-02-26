@@ -18099,3 +18099,7 @@ java.lang.RuntimeException: 文件不存在..
 2022/02/26-18:42:42 DEBUG [http-nio-9999-exec-6] com.jsh.erp.datasource.mappers.MaterialAttributeMapper.selectByExample - ==>  Preparing: SELECT id, attribute_field, attribute_name, attribute_value, tenant_id, delete_flag FROM jsh_material_attribute WHERE jsh_material_attribute.tenant_id = 63 AND (attribute_field = ? AND delete_flag <> ?) 
 2022/02/26-18:42:42 DEBUG [http-nio-9999-exec-6] com.jsh.erp.datasource.mappers.MaterialAttributeMapper.selectByExample - ==> Parameters: other3(String), 1(String)
 2022/02/26-18:42:42 DEBUG [http-nio-9999-exec-6] com.jsh.erp.datasource.mappers.MaterialAttributeMapper.selectByExample - <==      Total: 1
+2022/02/26-19:09:01 INFO  [main] com.jsh.erp.ErpApplication - Starting ErpApplication on DESKTOP-THFROJH with PID 21792 (C:\Users\lanvce\Lanvce\project\jsh-boot\target\classes started by lanvce in C:\Users\lanvce\Lanvce\project\jsh-boot)
+2022/02/26-19:09:01 DEBUG [main] com.jsh.erp.ErpApplication - Running with Spring Boot v2.0.0.RELEASE, Spring v5.0.4.RELEASE
+2022/02/26-19:09:01 INFO  [main] com.jsh.erp.ErpApplication - No active profile set, falling back to default profiles: default
+2022/02/26-19:09:08 INFO  [main] com.jsh.erp.ErpApplication - Started ErpApplication in 6.893 seconds (JVM running for 7.802)
