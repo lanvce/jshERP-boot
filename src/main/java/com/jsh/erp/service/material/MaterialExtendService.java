@@ -263,17 +263,17 @@ public class MaterialExtendService {
                         minDropShippingDecimal=curMaterialExtend.getDropshippingDecimal();
                     }
                     //比较集采价
-                    if (curMaterialExtend.getPurchaseDecimal()!=null&&curMaterialExtend.getPurchaseDecimal().compareTo(minPurchaseDecimal) == -1) {
+                    if (curMaterialExtend.getPurchaseDecimal()!=null&&minPurchaseDecimal!=null&&curMaterialExtend.getPurchaseDecimal().compareTo(minPurchaseDecimal) == -1) {
                             minPurchaseDecimal = curMaterialExtend.getPurchaseDecimal();
                             minIndex=i;
                     }else {
                         //如果集采价为空 比较代发价
-                        if (curMaterialExtend.getDropshippingDecimal()!=null&&curMaterialExtend.getDropshippingDecimal().compareTo(minDropShippingDecimal)==-1){
+                        if (curMaterialExtend.getDropshippingDecimal()!=null&&minDropShippingDecimal!=null&&curMaterialExtend.getDropshippingDecimal().compareTo(minDropShippingDecimal)==-1){
                             minDropShippingDecimal=curMaterialExtend.getDropshippingDecimal();
                             minIndex=i;
                         }else {
                             //如果代发价也为空 比较市场零售价
-                            if (curMaterialExtend.getCommodityDecimal()!=null&&curMaterialExtend.getCommodityDecimal().compareTo(minCommodityDecimal)==-1){
+                            if (curMaterialExtend.getCommodityDecimal()!=null&&minCommodityDecimal!=null&&curMaterialExtend.getCommodityDecimal().compareTo(minCommodityDecimal)==-1){
                                 minCommodityDecimal=curMaterialExtend.getCommodityDecimal();
                                 minIndex=i;
                             }
