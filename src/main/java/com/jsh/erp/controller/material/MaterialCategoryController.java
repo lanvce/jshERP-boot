@@ -108,6 +108,7 @@ public class MaterialCategoryController {
            for(TreeNode node:materialCategoryTree){
                String str=JSON.toJSONString(node);
                JSONObject obj=JSON.parseObject(str);
+               obj.put("profitRate",obj.get("attributes"));
                arr.add(obj) ;
            }
        }

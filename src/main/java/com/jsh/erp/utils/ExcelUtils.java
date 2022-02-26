@@ -1,6 +1,7 @@
 package com.jsh.erp.utils;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -206,6 +207,14 @@ public class ExcelUtils {
 	public static String getContent(Sheet src, int rowNum, int colNum) {
 		if(colNum < src.getRow(rowNum).length) {
 			return src.getRow(rowNum)[colNum].getContents().trim();
+		} else {
+			return null;
+		}
+	}
+
+	public static byte[] getContentBytes(Sheet src, int rowNum, int colNum) {
+		if(colNum < src.getRow(rowNum).length) {
+			return src.getRow(rowNum)[colNum].getContents().getBytes(StandardCharsets.UTF_8);
 		} else {
 			return null;
 		}

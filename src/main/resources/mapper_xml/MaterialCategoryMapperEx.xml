@@ -39,6 +39,7 @@
         <result column="id" property="key"/>
         <result column="id" property="value"/>
         <result column="name" property="title"/>
+        <result column="attributes" property="attributes"/>
         <collection column="{currentId=currentId,id=id}" property="children" javaType="java.util.ArrayList"
                     ofType="com.jsh.erp.datasource.vo.TreeNode" select="getNextNodeTree"/>
     </resultMap>
@@ -74,7 +75,7 @@
 
     <select id="getNodeTree" resultMap="BaseTreeResultMap">
         SELECT
-        <include refid="Base_Column_List"/>,#{currentId} as currentId
+        <include refid="Base_Column_List"/>,#{currentId} as currentId,profit_rate as attributes
         FROM jsh_material_category
         WHERE parent_id is null
         and ifnull(delete_flag,'0') !='1'

@@ -92,7 +92,9 @@ public class MaterialExtendService {
             if ("insert".equals(type)) {
                 for (int i = 0; i < meArr.size(); i++) {
                     JSONObject tempJson = meArr.getJSONObject(i);
-                    insertedJson.add(tempJson);
+                    if (StringUtils.isNotEmpty(tempJson.getString("barCode"))) {
+                        insertedJson.add(tempJson);
+                    }
                 }
             } else if ("update".equals(type)) {
                 for (int i = 0; i < meArr.size(); i++) {

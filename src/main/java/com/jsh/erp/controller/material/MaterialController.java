@@ -461,11 +461,11 @@ public class MaterialController {
         try {
             Sheet src = null;
             //文件合法性校验
-//            try {
-//                Workbook workbook = Workbook.getWorkbook(file.getInputStream());
-//                src = workbook.getSheet(0);
-//            } catch (Exception e) {
-//            }
+            try {
+                jxl.Workbook workbook = jxl.Workbook.getWorkbook(file.getInputStream());
+                src = workbook.getSheet(0);
+            } catch (Exception e) {
+            }
             res = materialService.importExcel(src, request);
         } catch (Exception e) {
             e.printStackTrace();
