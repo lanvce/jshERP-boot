@@ -152,7 +152,7 @@ public class SystemConfigController {
      * @param bizPath  自定义路径
      * @return
      */
-    private String uploadLocal(MultipartFile mf,String bizPath){
+    public String uploadLocal(MultipartFile mf,String bizPath){
         try {
             String ctxPath = filePath;
             String fileName = null;

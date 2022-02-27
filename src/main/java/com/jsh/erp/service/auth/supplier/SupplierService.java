@@ -331,6 +331,20 @@ public class SupplierService {
         return list;
     }
 
+    public List<Supplier> findBySelectSupName(String supplierName)throws Exception {
+        SupplierExample example = new SupplierExample();
+        example.createCriteria().andTypeLike("供应商").andEnabledEqualTo(true)
+                .andDeleteFlagNotEqualTo(BusinessConstants.DELETE_FLAG_DELETED).andSupplierEqualTo(supplierName);
+        example.setOrderByClause("id desc");
+        List<Supplier> list=null;
+        try{
+            list = supplierMapper.selectByExample(example);
+        }catch(Exception e){
+            JshException.readFail(logger, e);
+        }
+        return list;
+    }
+
     public List<Supplier> findBySelectRetail()throws Exception {
         SupplierExample example = new SupplierExample();
         example.createCriteria().andTypeLike("会员").andEnabledEqualTo(true)
