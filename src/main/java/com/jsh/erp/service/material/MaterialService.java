@@ -22,6 +22,7 @@ import jxl.Sheet;
 import org.apache.http.entity.ContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,9 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -86,8 +85,8 @@ public class MaterialService {
     @Resource
     private SupplierMapper supplierMapper;
 
-    @Resource
-    private SystemConfigController systemConfigController;
+    @Value(value="${file.path}")
+    private String filePath;
 
     public Material getMaterial(long id) throws Exception {
         Material result = null;
@@ -275,22 +274,6 @@ public class MaterialService {
             if (materials != null && materials.size() > 0) {
                 mId = materials.get(0).getId();
             }
-            //商品-供应商
-//            String supplierStr = obj.getString("supplierList");
-//            if (StringUtil.isNotEmpty(supplierStr)) {
-//                List<Long> supplierIds = JsonUtils.StrToLongList(supplierStr);
-//
-//                List<MaterialSupplier> materialSupplierList = new ArrayList<>();
-//                for (Long supplierId : supplierIds) {
-//                    MaterialSupplier materialSupplier = new MaterialSupplier();
-//                    materialSupplier.setMaterialId(mId);
-//                    materialSupplier.setSupplierId(supplierId);
-//                    materialSupplier.setCreateTime(new Date());
-//                    materialSupplierList.add(materialSupplier);
-//                }
-//                materialSupplierMapper.batchInsert(materialSupplierList);
-//            }
-
             //商品-电商链接
             String linksStr = obj.getString("links");
             if (StringUtil.isNotEmpty(linksStr)) {
@@ -667,11 +650,16 @@ public class MaterialService {
     public BaseResponseInfo importExcel(Sheet src, HttpServletRequest request) throws Exception {
         BaseResponseInfo info = new BaseResponseInfo();
         try {
-            List<Depot> depotList = depotService.getDepot();
+//            List<Depot> depotList = depotService.getDepot();
             List<MaterialWithInitStock> mList = new ArrayList<>();
+
+            //获取当前租户Id
+            String token = request.getHeader("X-Access-Token");
+            Long tenantId = Tools.getTenantIdByToken(token);
 
             String links="";
             byte[] imageBytes=null;
+            String imageName="_"+System.currentTimeMillis()+".png";
             for (int i = 2; i < src.getRows(); i++) {
                 String name = ExcelUtils.getContent(src, i, 0); //名称
                 String brand = ExcelUtils.getContent(src, i, 1); //名称
@@ -681,7 +669,7 @@ public class MaterialService {
                 String color = ExcelUtils.getContent(src, i, 4); //颜色
                 String categoryName = ExcelUtils.getContent(src, i, 5); //类别
                 String unit = ExcelUtils.getContent(src, i, 6); //基本单位
-                 links= ExcelUtils.getContent(src, i, 12); //电商链接
+                 links= ExcelUtils.getContent(src, i, 11); //电商链接
 
                 //校验名称、单位是否为空
                 if (StringUtil.isNotEmpty(name) && StringUtil.isNotEmpty(unit)) {
@@ -690,18 +678,26 @@ public class MaterialService {
                     m.setStandard(standard);
                     m.setModel(model);
                     m.setColor(color);
+                    m.setBrand(brand);
+                    m.setEnabled(true);
+
+                    //校验单位是否存在
+                    m.setUnit(unit);
+
+                    //设置图片路径
+                    m.setImgName("material/"+tenantId+"/"+imageName);
 
                     Long categoryId = materialCategoryService.getCategoryIdByName(categoryName);
                     if (null != categoryId) {
                         m.setCategoryId(categoryId);
                     }
 
-                    String mutiRecord = ExcelUtils.getContent(src, i, 7); //是否多条记录（不同供应商有不同的价格）
-                    String supplierName = ExcelUtils.getContent(src, i, 8); //供应商
-                    String dropShippingDecimal = ExcelUtils.getContent(src, i, 9); //代发价
-                    String purchaseDecimal = ExcelUtils.getContent(src, i, 10); //集采价
-                    String commodityDecimal = ExcelUtils.getContent(src, i, 11); //市场零售价
-                    imageBytes = ExcelUtils.getContentBytes(src, i, 13); //图片
+//                    String mutiRecord = ExcelUtils.getContent(src, i, 7); //是否多条记录（不同供应商有不同的价格）
+                    String supplierName = ExcelUtils.getContent(src, i, 7); //供应商
+                    String dropShippingDecimal = ExcelUtils.getContent(src, i, 8); //代发价
+                    String purchaseDecimal = ExcelUtils.getContent(src, i, 9); //集采价
+                    String commodityDecimal = ExcelUtils.getContent(src, i, 10); //市场零售价
+                    imageBytes = ExcelUtils.getContentBytes(src, i, 12); //图片
 
                     //处理供应商
                     Long supplierId=null;
@@ -730,6 +726,7 @@ public class MaterialService {
                     priceObj.put("dropShippingDecimal", dropShippingDecimal);
                     priceObj.put("commodityDecimal", commodityDecimal);
                     priceObj.put("barCode", Long.valueOf(maxBarCode)+1);
+                    priceObj.put("supplierId",supplierId);
 
                     materialExObj.put("price", priceObj);
 
@@ -766,16 +763,18 @@ public class MaterialService {
                 }
 
                 //更新链接信息
-                List<MaterialLink> materialLinks=new ArrayList<>();
-                String[] strings = links.split(",");
-                for (int i=0;i<strings.length-1;i++){
-                    MaterialLink link = new MaterialLink();
-                    link.setLink(strings[i]);
-                    link.setMaterialId(mId);
-                    link.setCreateTime(new Date());
-                    materialLinks.add(link);
+                if (StringUtil.isNotEmpty(links)) {
+                    List<String> linkList = JsonUtils.spiltToStringList(links, ",");
+                    List<MaterialLink> mateialLinkList = new ArrayList<>();
+                    for (String link : linkList) {
+                        MaterialLink materialLink = new MaterialLink();
+                        materialLink.setMaterialId(mId);
+                        materialLink.setLink(link);
+                        materialLink.setCreateTime(new Date());
+                        mateialLinkList.add(materialLink);
+                    }
+                    materialLinkMapper.batchInsert(mateialLinkList);
                 }
-                materialLinkMapper.batchInsert(materialLinks);
 
                 //给商品新增条码与价格、供应商 相关信息
                 User user = userService.getCurrentUser();
@@ -784,7 +783,7 @@ public class MaterialService {
                     String basicStr = materialExObj.getString("price");
                     MaterialExtend basicMaterialExtend = JSONObject.parseObject(basicStr, MaterialExtend.class);
                     basicMaterialExtend.setMaterialId(mId);
-                    basicMaterialExtend.setDefaultFlag("0");
+                    basicMaterialExtend.setDefaultFlag("1");
                     basicMaterialExtend.setCreateTime(new Date());
                     basicMaterialExtend.setUpdateTime(System.currentTimeMillis());
                     basicMaterialExtend.setCreateSerial(user.getLoginName());
@@ -795,13 +794,19 @@ public class MaterialService {
 
                 //商品图片
                 if (imageBytes!=null&&imageBytes.length!=0) {
-                    InputStream inputStream = new ByteArrayInputStream(imageBytes);
-                    MultipartFile file = new MockMultipartFile(ContentType.APPLICATION_OCTET_STREAM.toString(), inputStream);
-                    //获取当前租户Id
-                    String token = request.getHeader("X-Access-Token");
-                    Long tenantId = Tools.getTenantIdByToken(token);
+                    try {
+                        String path =filePath+File.separator+tenantId+File.separator;
+                        File f = new File(path);
+                        if (!f.exists()) {
+                            f.mkdirs();
+                        }
+                        FileOutputStream fos = new FileOutputStream(path + imageName);
+                        fos.write(imageBytes);
+                        fos.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                    systemConfigController.uploadLocal(file,String.valueOf(tenantId));
                 }
 
             }

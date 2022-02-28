@@ -15,7 +15,7 @@ import com.jsh.erp.utils.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jxl.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import jxl.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -417,7 +417,7 @@ public class MaterialController {
 
             map.put("list", listMap);
 
-            Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+            org.apache.poi.ss.usermodel.Workbook workbook = ExcelExportUtil.exportExcel(params, map);
             String targetPath = templatePath + File.separator + "target";
             String fileName="商品明细表";
             File savefile = new File(targetPath);
@@ -462,9 +462,11 @@ public class MaterialController {
             Sheet src = null;
             //文件合法性校验
             try {
-                jxl.Workbook workbook = jxl.Workbook.getWorkbook(file.getInputStream());
+                Workbook workbook = Workbook.getWorkbook(file.getInputStream());
                 src = workbook.getSheet(0);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
+
             }
             res = materialService.importExcel(src, request);
         } catch (Exception e) {
