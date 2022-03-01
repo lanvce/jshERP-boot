@@ -85,7 +85,7 @@ public class MaterialService {
     @Resource
     private SupplierMapper supplierMapper;
 
-    @Value(value="${file.path}")
+    @Value(value = "${file.path}")
     private String filePath;
 
     public Material getMaterial(long id) throws Exception {
@@ -171,8 +171,8 @@ public class MaterialService {
                     List<String> links = linkMap.get(m.getId());
                     if (!CollectionUtils.isEmpty(links)) {
                         StringBuilder linkStr = new StringBuilder("");
-                        links.stream().forEach(x->{
-                            if (StringUtil.isNotEmpty(linkStr.toString())){
+                        links.stream().forEach(x -> {
+                            if (StringUtil.isNotEmpty(linkStr.toString())) {
                                 linkStr.append(",");
                             }
                             linkStr.append(x);
@@ -562,14 +562,14 @@ public class MaterialService {
             //电商链接
             Map<Long, List<String>> linkMap = getMaterialLinkMap(ids);
 
-            list.stream().forEach(x->{
+            list.stream().forEach(x -> {
                 //获取到链接的数组
                 List<String> links = linkMap.get(x.getId());
                 if (!CollectionUtils.isEmpty(links)) {
                     //链接拼接为字符串
                     StringBuilder linkStr = new StringBuilder("");
-                    links.stream().forEach(y->{
-                        if (StringUtil.isNotEmpty(linkStr.toString())){
+                    links.stream().forEach(y -> {
+                        if (StringUtil.isNotEmpty(linkStr.toString())) {
                             linkStr.append(",");
                         }
                         linkStr.append(y);
@@ -618,14 +618,14 @@ public class MaterialService {
             Set<Long> ids = list.stream().map(MaterialVo4Unit::getId).collect(Collectors.toSet());
 
             Map<Long, List<String>> linkMap = getMaterialLinkMap(ids);
-            list.stream().forEach(x->{
+            list.stream().forEach(x -> {
                 //获取到链接的数组
                 List<String> links = linkMap.get(x.getId());
                 if (!CollectionUtils.isEmpty(links)) {
                     //链接拼接为字符串
                     StringBuilder linkStr = new StringBuilder("");
-                    links.stream().forEach(y->{
-                        if (StringUtil.isNotEmpty(linkStr.toString())){
+                    links.stream().forEach(y -> {
+                        if (StringUtil.isNotEmpty(linkStr.toString())) {
                             linkStr.append(",");
                         }
                         linkStr.append(y);
@@ -657,19 +657,20 @@ public class MaterialService {
             String token = request.getHeader("X-Access-Token");
             Long tenantId = Tools.getTenantIdByToken(token);
 
-            String links="";
-            byte[] imageBytes=null;
-            String imageName="_"+System.currentTimeMillis()+".png";
-            for (int i = 2; i < src.getRows(); i++) {
-                String name = ExcelUtils.getContent(src, i, 0); //名称
-                String brand = ExcelUtils.getContent(src, i, 1); //名称
+            String links = "";
+            byte[] imageBytes = null;
+            String imageName = "_" + System.currentTimeMillis() + ".png";
+            Map<Integer, byte[]> imgDataMap = new HashMap<>();
+            for (int i = 3; i < src.getRows(); i++) {
+                String name = ExcelUtils.getContent(src, i, 1); //名称
+                String brand = ExcelUtils.getContent(src, i, 0); //名称
 
                 String standard = ExcelUtils.getContent(src, i, 2); //规格
                 String model = ExcelUtils.getContent(src, i, 3); //型号
-                String color = ExcelUtils.getContent(src, i, 4); //颜色
+                String color = ExcelUtils.getContent(src, i, 11); //颜色
                 String categoryName = ExcelUtils.getContent(src, i, 5); //类别
                 String unit = ExcelUtils.getContent(src, i, 6); //基本单位
-                 links= ExcelUtils.getContent(src, i, 11); //电商链接
+                links = ExcelUtils.getContent(src, i, 10); //电商链接
 
                 //校验名称、单位是否为空
                 if (StringUtil.isNotEmpty(name) && StringUtil.isNotEmpty(unit)) {
@@ -685,7 +686,7 @@ public class MaterialService {
                     m.setUnit(unit);
 
                     //设置图片路径
-                    m.setImgName("material/"+tenantId+"/"+imageName);
+                    m.setImgName("material/" + tenantId + "/" + imageName);
 
                     Long categoryId = materialCategoryService.getCategoryIdByName(categoryName);
                     if (null != categoryId) {
@@ -693,27 +694,29 @@ public class MaterialService {
                     }
 
 //                    String mutiRecord = ExcelUtils.getContent(src, i, 7); //是否多条记录（不同供应商有不同的价格）
-                    String supplierName = ExcelUtils.getContent(src, i, 7); //供应商
-                    String dropShippingDecimal = ExcelUtils.getContent(src, i, 8); //代发价
-                    String purchaseDecimal = ExcelUtils.getContent(src, i, 9); //集采价
-                    String commodityDecimal = ExcelUtils.getContent(src, i, 10); //市场零售价
-                    imageBytes = ExcelUtils.getContentBytes(src, i, 12); //图片
+                    String supplierName = ExcelUtils.getContent(src, i, 12); //供应商
+                    String dropShippingDecimal = ExcelUtils.getContent(src, i, 7); //代发价
+                    String purchaseDecimal = ExcelUtils.getContent(src, i, 8); //集采价
+                    String commodityDecimal = ExcelUtils.getContent(src, i, 9); //市场零售价
+
+                    imgDataMap = ExcelUtils.readPictureData(src); //图片map数据
+                    imageBytes=imgDataMap.get(i);
 
                     //处理供应商
-                    Long supplierId=null;
+                    Long supplierId = null;
                     List<Supplier> supList = supplierService.findBySelectSupName(supplierName);
-                    if (CollectionUtils.isEmpty(supList)){
+                    if (CollectionUtils.isEmpty(supList)) {
                         //新增此供应商 并获取到他的Id
                         Supplier newSupplier = new Supplier();
                         newSupplier.setSupplier(supplierName);
                         supplierMapper.insert(newSupplier);
 
                         List<Supplier> newSup = supplierService.findBySelectSupName(supplierName);
-                        supplierId=newSup.get(0).getId();
+                        supplierId = newSup.get(0).getId();
 
-                    }else {
+                    } else {
                         //获取到供应商Id
-                        supList.get(0).getId();
+                        supplierId = supList.get(0).getId();
                     }
 
                     //条码现在根据类别自动生成
@@ -725,8 +728,8 @@ public class MaterialService {
                     priceObj.put("purchaseDecimal", purchaseDecimal);
                     priceObj.put("dropShippingDecimal", dropShippingDecimal);
                     priceObj.put("commodityDecimal", commodityDecimal);
-                    priceObj.put("barCode", Long.valueOf(maxBarCode)+1);
-                    priceObj.put("supplierId",supplierId);
+                    priceObj.put("barCode", Long.valueOf(maxBarCode) + 1);
+                    priceObj.put("supplierId", supplierId);
 
                     materialExObj.put("price", priceObj);
 
@@ -748,7 +751,7 @@ public class MaterialService {
                 //不存在
                 if (materials.size() <= 0) {
                     materialMapper.insertSelective(m);
-                    List<Material> newList = getMaterialListByParam(m.getName(), m.getModel(), m.getColor(), m.getStandard(),
+                    List<Material> newList = getMaterialListByParam(m.getName(), m.getModel(), null, m.getStandard(),
                             m.getMfrs(), m.getUnit(), m.getUnitId());
                     if (newList != null && newList.size() > 0) {
                         mId = newList.get(0).getId();
@@ -793,18 +796,38 @@ public class MaterialService {
                 }
 
                 //商品图片
-                if (imageBytes!=null&&imageBytes.length!=0) {
+                if (imageBytes != null && imageBytes.length != 0) {
+                    BufferedOutputStream bos = null;
+                    FileOutputStream fos = null;
+                    File file = null;
+                    String path = filePath + File.separator + "material" + File.separator + tenantId + File.separator;
+
                     try {
-                        String path =filePath+File.separator+tenantId+File.separator;
-                        File f = new File(path);
-                        if (!f.exists()) {
-                            f.mkdirs();
+                        File dir = new File(path);
+                        if (!dir.exists() && dir.isDirectory()) {//判断文件目录是否存在
+                            dir.mkdirs();
                         }
-                        FileOutputStream fos = new FileOutputStream(path + imageName);
-                        fos.write(imageBytes);
-                        fos.close();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        file = new File(path + File.separator + imageName);
+                        fos = new FileOutputStream(file);
+                        bos = new BufferedOutputStream(fos);
+                        bos.write(imageBytes);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (bos != null) {
+                            try {
+                                bos.close();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                        if (fos != null) {
+                            try {
+                                fos.close();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
                     }
 
                 }
@@ -1040,17 +1063,17 @@ public class MaterialService {
     }
 
     public String getMaxBarCode(String categoryId) throws Exception {
-        if (StringUtil.isEmpty(categoryId)){
-            throw new BusinessRunTimeException(ExceptionConstants.MATERIAL_CATEGORY_EMPTY_CODE,ExceptionConstants.MATERIAL_CATEGORY_EMPTY_MSG);
+        if (StringUtil.isEmpty(categoryId)) {
+            throw new BusinessRunTimeException(ExceptionConstants.MATERIAL_CATEGORY_EMPTY_CODE, ExceptionConstants.MATERIAL_CATEGORY_EMPTY_MSG);
         }
         //获取到该分类对应的编码
         MaterialCategory materialCategory = materialCategoryService.getMaterialCategory(Long.valueOf(categoryId));
         String maxBarCodeOld = materialMapperEx.getMaxBarCodeByCategoryNum(materialCategory.getSerialNo());
-        int length=materialCategory.getSerialNo().length()+6;
-        if (StringUtil.isNotEmpty(maxBarCodeOld)&&maxBarCodeOld.length()==length) {
+        int length = materialCategory.getSerialNo().length() + 6;
+        if (StringUtil.isNotEmpty(maxBarCodeOld) && maxBarCodeOld.length() == length) {
             return Long.parseLong(maxBarCodeOld) + "";
         } else {
-            return materialCategory.getSerialNo()+"000000";
+            return materialCategory.getSerialNo() + "000000";
         }
     }
 
@@ -1067,14 +1090,14 @@ public class MaterialService {
         Set<Long> ids = list.stream().map(MaterialVo4Unit::getId).collect(Collectors.toSet());
 
         Map<Long, List<String>> linkMap = getMaterialLinkMap(ids);
-        list.stream().forEach(x->{
+        list.stream().forEach(x -> {
             //获取到链接的数组
             List<String> links = linkMap.get(x.getId());
             if (!CollectionUtils.isEmpty(links)) {
                 //链接拼接为字符串
                 StringBuilder linkStr = new StringBuilder("");
-                links.stream().forEach(y->{
-                    if (StringUtil.isNotEmpty(linkStr.toString())){
+                links.stream().forEach(y -> {
+                    if (StringUtil.isNotEmpty(linkStr.toString())) {
                         linkStr.append(",");
                     }
                     linkStr.append(y);
