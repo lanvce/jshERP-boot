@@ -268,18 +268,20 @@ public class MaterialController {
                         profitRate = categoryService.getMaterialCategory(category).getProfitRate();
                     }
                     profitRate=profitRate*0.1+1;
+                    DecimalFormat df = new DecimalFormat("#0.00");
                     BigDecimal profit = new BigDecimal(String.valueOf (profitRate));
+
                     BigDecimal dropshippingDecimal = material.getDropshippingDecimal();
                     if (dropshippingDecimal!=null){
-                        item.put("dropshippingDecimal",material.getDropshippingDecimal().multiply(profit));
+                        item.put("dropshippingDecimal",df.format(material.getDropshippingDecimal().multiply(profit)));
                     }
                     BigDecimal purchaseDecimal = material.getPurchaseDecimal();
                     if (purchaseDecimal!=null){
-                        item.put("purchaseDecimal",material.getPurchaseDecimal().multiply(profit));
+                        item.put("purchaseDecimal",df.format(material.getPurchaseDecimal().multiply(profit)));
                     }
                     BigDecimal commodityDecimal = material.getCommodityDecimal();
                     if (commodityDecimal!=null){
-                        item.put("commodityDecimal",material.getCommodityDecimal().multiply(profit));
+                        item.put("commodityDecimal",df.format(material.getCommodityDecimal().multiply(profit)));
                     }
 
                     BigDecimal stock;
@@ -603,7 +605,10 @@ public class MaterialController {
                          profitRate = categoryService.getMaterialCategory(categoryId).getProfitRate();
                     }
 
-                    BigDecimal profit = new BigDecimal(1 + (profitRate / 10));
+                    profitRate=profitRate*0.1+1;
+                    DecimalFormat df = new DecimalFormat("#0.00");
+                    BigDecimal profit = new BigDecimal(String.valueOf (profitRate));
+
                     BigDecimal dropshippingDecimal = mvo.getDropshippingDecimal();
                     if (dropshippingDecimal!=null){
                         mvo.setDropshippingDecimal(dropshippingDecimal.multiply(profit));
