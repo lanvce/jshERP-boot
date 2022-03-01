@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jsh.erp.datasource.entities.*;
 import com.jsh.erp.service.depot.DepotService;
 import com.jsh.erp.service.depot.DepotItemService;
+import com.jsh.erp.service.material.MaterialCategoryService;
 import com.jsh.erp.service.material.MaterialService;
 import com.jsh.erp.service.system.redis.RedisService;
 import com.jsh.erp.service.system.unit.UnitService;
@@ -66,6 +67,10 @@ public class MaterialController {
 
     @Value(value = "${file.path}")
     private String imgPath;
+
+    @Resource
+    private MaterialCategoryService categoryService;
+
 
     /**
      * 检查商品是否存在
@@ -254,8 +259,27 @@ public class MaterialController {
                     item.put("supplier",material.getSupplierId());
                     item.put("supplierName",material.getSupplierName());
                     item.put("links",material.getLinks());
-                    item.put("purchaseDecimal",material.getPurchaseDecimal());
-                    item.put("dropshippingDecimal",material.getDropshippingDecimal());
+
+                    //对成本价格加利润
+                    Long category = material.getCategoryId();
+                    Double profitRate=0.0;
+                    if (category!=null) {
+                        profitRate = categoryService.getMaterialCategory(category).getProfitRate();
+                    }
+                    profitRate=profitRate*0.1+1;
+                    BigDecimal profit = new BigDecimal(String.valueOf (profitRate));
+                    BigDecimal dropshippingDecimal = material.getDropshippingDecimal();
+                    if (dropshippingDecimal!=null){
+                        item.put("dropshippingDecimal",material.getDropshippingDecimal().multiply(profit));
+                    }
+                    BigDecimal purchaseDecimal = material.getPurchaseDecimal();
+                    if (purchaseDecimal!=null){
+                        item.put("purchaseDecimal",material.getPurchaseDecimal().multiply(profit));
+                    }
+                    BigDecimal commodityDecimal = material.getCommodityDecimal();
+                    if (commodityDecimal!=null){
+                        item.put("commodityDecimal",material.getCommodityDecimal().multiply(profit));
+                    }
 
                     BigDecimal stock;
                     if(StringUtil.isNotEmpty(material.getSku())){
@@ -571,6 +595,27 @@ public class MaterialController {
             List<MaterialVo4Unit> list = materialService.getMaterialByBarCode(barCode);
             if(list!=null && list.size()>0) {
                 for(MaterialVo4Unit mvo: list) {
+                    //对成本价格加利润
+                    Long categoryId = mvo.getCategoryId();
+                    Double profitRate=0.0;
+                    if (categoryId!=null) {
+                         profitRate = categoryService.getMaterialCategory(categoryId).getProfitRate();
+                    }
+
+                    BigDecimal profit = new BigDecimal(1 + (profitRate / 10));
+                    BigDecimal dropshippingDecimal = mvo.getDropshippingDecimal();
+                    if (dropshippingDecimal!=null){
+                        mvo.setDropshippingDecimal(dropshippingDecimal.multiply(profit));
+                    }
+                    BigDecimal purchaseDecimal = mvo.getPurchaseDecimal();
+                    if (purchaseDecimal!=null){
+                        mvo.setPurchaseDecimal(purchaseDecimal.multiply(profit));
+                    }
+                    BigDecimal commodityDecimal = mvo.getCommodityDecimal();
+                    if (commodityDecimal!=null){
+                        mvo.setCommodityDecimal(commodityDecimal.multiply(profit));
+                    }
+
                     String expand = ""; //扩展信息
                     for (int i = 0; i < mpArr.length; i++) {
                         if (mpArr[i].equals("制造商")) {
@@ -599,6 +644,7 @@ public class MaterialController {
                         //销售价
                         mvo.setBillPrice(mvo.getWholesaleDecimal());
                     }
+
                     //仓库id
                     if (depotId == null) {
                         JSONArray depotArr = depotService.findDepotByCurrentUser();
