@@ -279,10 +279,10 @@ public class MaterialController {
                     if (purchaseDecimal!=null){
                         item.put("purchaseDecimal",df.format(material.getPurchaseDecimal().multiply(profit)));
                     }
-                    BigDecimal commodityDecimal = material.getCommodityDecimal();
-                    if (commodityDecimal!=null){
-                        item.put("commodityDecimal",df.format(material.getCommodityDecimal().multiply(profit)));
-                    }
+//                    BigDecimal commodityDecimal = material.getCommodityDecimal();
+//                    if (commodityDecimal!=null){
+//                        item.put("commodityDecimal",df.format(material.getCommodityDecimal().multiply(profit)));
+//                    }
 
                     BigDecimal stock;
                     if(StringUtil.isNotEmpty(material.getSku())){
@@ -617,10 +617,10 @@ public class MaterialController {
                     if (purchaseDecimal!=null){
                         mvo.setPurchaseDecimal(purchaseDecimal.multiply(profit));
                     }
-                    BigDecimal commodityDecimal = mvo.getCommodityDecimal();
-                    if (commodityDecimal!=null){
-                        mvo.setCommodityDecimal(commodityDecimal.multiply(profit));
-                    }
+//                    BigDecimal commodityDecimal = mvo.getCommodityDecimal();
+//                    if (commodityDecimal!=null){
+//                        mvo.setCommodityDecimal(commodityDecimal.multiply(profit));
+//                    }
 
                     String expand = ""; //扩展信息
                     for (int i = 0; i < mpArr.length; i++) {
