@@ -381,7 +381,7 @@ public class MaterialController {
             List<MaterialVo4Unit> dataList = materialService.findByAll(StringUtil.toNull(barCode), StringUtil.toNull(name),
                     StringUtil.toNull(standard), StringUtil.toNull(model), StringUtil.toNull(categoryId));
 
-            TemplateExportParams params = new TemplateExportParams(templatePath + File.separator + "materialList.xlsx");
+            TemplateExportParams params = new TemplateExportParams(templatePath + File.separator + "materialList1.xlsx");
             Map<String, Object> map = new HashMap<String, Object>();
 
             DecimalFormat df =new DecimalFormat("#.00");
