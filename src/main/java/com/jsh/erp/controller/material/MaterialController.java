@@ -403,8 +403,8 @@ public class MaterialController {
                 lm.put("links", i.getLinks());
                 //图片地址
                 ImageEntity image = new ImageEntity();
-                image.setHeight(224);
-                image.setWidth(224);
+                image.setHeight(150);
+                image.setWidth(150);
 
                 String imgUrl = imgPath + File.separator + i.getImgName();
                 if (StringUtil.isNotEmpty(imgUrl)) {
