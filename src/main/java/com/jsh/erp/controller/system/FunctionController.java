@@ -41,6 +41,7 @@ public class FunctionController {
 
     /**
      * 根据父编号查询菜单
+     *
      * @param jsonObject
      * @param request
      * @return
@@ -49,7 +50,7 @@ public class FunctionController {
     @PostMapping(value = "/findMenuByPNumber")
     @ApiOperation(value = "根据父编号查询菜单")
     public JSONArray findMenuByPNumber(@RequestBody JSONObject jsonObject,
-                              HttpServletRequest request)throws Exception {
+                                       HttpServletRequest request) throws Exception {
         String pNumber = jsonObject.getString("pNumber");
         String userId = jsonObject.getString("userId");
         //存放数据json数组
@@ -58,16 +59,16 @@ public class FunctionController {
             Long roleId = 0L;
             String fc = "";
             List<UserBusiness> roleList = userBusinessService.getBasicData(userId, "UserRole");
-            if(roleList!=null && roleList.size()>0){
+            if (roleList != null && roleList.size() > 0) {
                 String value = roleList.get(0).getValue();
-                if(StringUtil.isNotEmpty(value)){
+                if (StringUtil.isNotEmpty(value)) {
                     String roleIdStr = value.replace("[", "").replace("]", "");
                     roleId = Long.parseLong(roleIdStr);
                 }
             }
             //当前用户所拥有的功能列表，格式如：[1][2][5]
             List<UserBusiness> funList = userBusinessService.getBasicData(roleId.toString(), "RoleFunctions");
-            if(funList!=null && funList.size()>0){
+            if (funList != null && funList.size() > 0) {
                 fc = funList.get(0).getValue();
             }
             List<Function> dataList = functionService.getRoleFunction(pNumber);
@@ -80,7 +81,7 @@ public class FunctionController {
                 homeItem.put("icon", "home");
                 homeItem.put("url", "/dashboard/analysis");
                 homeItem.put("component", "/layouts/TabLayout");
-                dataArray.add(0,homeItem);
+                dataArray.add(0, homeItem);
             }
         } catch (DataAccessException e) {
             logger.error(">>>>>>>>>>>>>>>>>>>查找异常", e);
@@ -98,9 +99,9 @@ public class FunctionController {
             item.put("icon", function.getIcon());
             item.put("url", function.getUrl());
             item.put("component", function.getComponent());
-            if (newList.size()>0) {
+            if (newList.size() > 0) {
                 JSONArray childrenArr = getMenuByFunction(newList, fc);
-                if(childrenArr.size()>0) {
+                if (childrenArr.size() > 0) {
                     item.put("children", childrenArr);
                     dataArray.add(item);
                 }
@@ -115,13 +116,14 @@ public class FunctionController {
 
     /**
      * 角色对应功能显示
+     *
      * @param request
      * @return
      */
     @GetMapping(value = "/findRoleFunction")
     @ApiOperation(value = "角色对应功能显示")
     public JSONArray findRoleFunction(@RequestParam("UBType") String type, @RequestParam("UBKeyId") String keyId,
-                                 HttpServletRequest request)throws Exception {
+                                      HttpServletRequest request) throws Exception {
         JSONArray arr = new JSONArray();
         try {
             List<Function> dataListFun = functionService.findRoleFunction("0");
@@ -137,7 +139,7 @@ public class FunctionController {
             if (null != dataListFun) {
                 //根据条件从列表里面移除"系统管理"
                 List<Function> dataList = new ArrayList<>();
-//                for (Function fun : dataListFun) {
+                for (Function fun : dataListFun) {
 //                    String token = request.getHeader("X-Access-Token");
 //                    Long tenantId = Tools.getTenantIdByToken(token);
 //                    if (tenantId!=0L) {
@@ -148,7 +150,9 @@ public class FunctionController {
 //                        //超管
 //                        dataList.add(fun);
 //                    }
-//                }
+                    dataList.add(fun);
+
+                }
                 dataArray = getFunctionList(dataList, type, keyId);
                 outer.put("children", dataArray);
             }
@@ -165,7 +169,7 @@ public class FunctionController {
         String ubValue = userBusinessService.getUBValueByTypeAndKeyId(type, keyId);
         if (null != dataList) {
             for (Function function : dataList) {
-                if (StringUtils.isNotEmpty(function.getName())&&function.getName().equals("商品类别")){
+                if (StringUtils.isNotEmpty(function.getName()) && function.getName().equals("商品类别")) {
                     continue;
                 }
                 JSONObject item = new JSONObject();
@@ -175,7 +179,7 @@ public class FunctionController {
                 item.put("title", function.getName());
                 item.put("attributes", function.getName());
                 List<Function> funList = functionService.findRoleFunction(function.getNumber());
-                if(funList.size()>0) {
+                if (funList.size() > 0) {
                     JSONArray funArr = getFunctionList(funList, type, keyId);
                     item.put("children", funArr);
                     dataArray.add(item);
@@ -191,6 +195,7 @@ public class FunctionController {
 
     /**
      * 根据id列表查找功能信息
+     *
      * @param roleId
      * @param request
      * @return
@@ -198,19 +203,19 @@ public class FunctionController {
     @GetMapping(value = "/findRoleFunctionsById")
     @ApiOperation(value = "根据id列表查找功能信息")
     public BaseResponseInfo findByIds(@RequestParam("roleId") Long roleId,
-                                      HttpServletRequest request)throws Exception {
+                                      HttpServletRequest request) throws Exception {
         BaseResponseInfo res = new BaseResponseInfo();
         try {
             List<UserBusiness> list = userBusinessService.getBasicData(roleId.toString(), "RoleFunctions");
-            if(null!=list && list.size()>0) {
+            if (null != list && list.size() > 0) {
                 //按钮
-                Map<Long,String> btnMap = new HashMap<>();
+                Map<Long, String> btnMap = new HashMap<>();
                 String btnStr = list.get(0).getBtnStr();
-                if(StringUtil.isNotEmpty(btnStr)) {
+                if (StringUtil.isNotEmpty(btnStr)) {
                     JSONArray btnArr = JSONArray.parseArray(btnStr);
-                    for(Object obj: btnArr) {
+                    for (Object obj : btnArr) {
                         JSONObject btnObj = JSONObject.parseObject(obj.toString());
-                        if(btnObj.get("funId")!=null && btnObj.get("btnStr")!=null) {
+                        if (btnObj.get("funId") != null && btnObj.get("btnStr") != null) {
                             btnMap.put(btnObj.getLong("funId"), btnObj.getString("btnStr"));
                         }
                     }
@@ -218,7 +223,7 @@ public class FunctionController {
                 //菜单
                 String funIds = list.get(0).getValue();
                 funIds = funIds.substring(1, funIds.length() - 1);
-                funIds = funIds.replace("][",",");
+                funIds = funIds.replace("][", ",");
                 List<Function> dataList = functionService.findByIds(funIds);
                 JSONObject outer = new JSONObject();
                 outer.put("total", dataList.size());
