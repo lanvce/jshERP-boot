@@ -137,18 +137,18 @@ public class FunctionController {
             if (null != dataListFun) {
                 //根据条件从列表里面移除"系统管理"
                 List<Function> dataList = new ArrayList<>();
-                for (Function fun : dataListFun) {
-                    String token = request.getHeader("X-Access-Token");
-                    Long tenantId = Tools.getTenantIdByToken(token);
-                    if (tenantId!=0L) {
-                        if(!("系统管理").equals(fun.getName())) {
-                            dataList.add(fun);
-                        }
-                    } else {
-                        //超管
-                        dataList.add(fun);
-                    }
-                }
+//                for (Function fun : dataListFun) {
+//                    String token = request.getHeader("X-Access-Token");
+//                    Long tenantId = Tools.getTenantIdByToken(token);
+//                    if (tenantId!=0L) {
+//                        if(!("系统管理").equals(fun.getName())) {
+//                            dataList.add(fun);
+//                        }
+//                    } else {
+//                        //超管
+//                        dataList.add(fun);
+//                    }
+//                }
                 dataArray = getFunctionList(dataList, type, keyId);
                 outer.put("children", dataArray);
             }
