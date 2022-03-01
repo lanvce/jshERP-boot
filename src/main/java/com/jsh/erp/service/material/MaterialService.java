@@ -749,6 +749,7 @@ public class MaterialService {
                         m.getMfrs(), m.getUnit(), m.getUnitId());
 
                 //不存在
+                boolean materialExist=false;
                 if (materials.size() <= 0) {
                     materialMapper.insertSelective(m);
                     List<Material> newList = getMaterialListByParam(m.getName(), m.getModel(), null, m.getStandard(),
@@ -757,6 +758,7 @@ public class MaterialService {
                         mId = newList.get(0).getId();
                     }
                 } else {
+                    materialExist=true;
                     //存在 更新商品基本信息
                     mId = materials.get(0).getId();
                     String materialJson = JSON.toJSONString(m);
@@ -786,7 +788,11 @@ public class MaterialService {
                     String basicStr = materialExObj.getString("price");
                     MaterialExtend basicMaterialExtend = JSONObject.parseObject(basicStr, MaterialExtend.class);
                     basicMaterialExtend.setMaterialId(mId);
-                    basicMaterialExtend.setDefaultFlag("1");
+                    if (materialExist){
+                        basicMaterialExtend.setDefaultFlag("0");
+                    }else {
+                        basicMaterialExtend.setDefaultFlag("1");
+                    }
                     basicMaterialExtend.setCreateTime(new Date());
                     basicMaterialExtend.setUpdateTime(System.currentTimeMillis());
                     basicMaterialExtend.setCreateSerial(user.getLoginName());
