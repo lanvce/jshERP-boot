@@ -9,6 +9,7 @@ import com.jsh.erp.utils.BaseResponseInfo;
 import com.jsh.erp.utils.FileUtils;
 import com.jsh.erp.utils.StringUtil;
 import com.jsh.erp.utils.Tools;
+import com.mysql.cj.util.LogUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -130,7 +131,10 @@ public class SystemConfigController {
             String token = request.getHeader("X-Access-Token");
             Long tenantId = Tools.getTenantIdByToken(token);
             bizPath = bizPath + File.separator + tenantId;
+            logger.error("bizPath:"+bizPath);
+
             savePath = this.uploadLocal(file,bizPath);
+            logger.error("savePath:"+savePath);
             if(StringUtil.isNotEmpty(savePath)){
                 res.code = 200;
                 res.data = savePath;
@@ -168,9 +172,11 @@ public class SystemConfigController {
                 fileName = orgName+ "_" + System.currentTimeMillis();
             }
             String savePath = file.getPath() + File.separator + fileName;
+            logger.error("内层的savePath："+savePath);
             File savefile = new File(savePath);
             FileCopyUtils.copy(mf.getBytes(), savefile);
             String dbpath = null;
+
             if(StringUtil.isNotEmpty(bizPath)){
                 dbpath = bizPath + File.separator + fileName;
             }else{
