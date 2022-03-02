@@ -267,7 +267,7 @@ public class MaterialController {
                     if (category!=null) {
                         profitRate = categoryService.getMaterialCategory(category).getProfitRate();
                     }
-                    profitRate=profitRate*0.1+1;
+                    profitRate=profitRate*0.01+1;
                     DecimalFormat df = new DecimalFormat("#0.00");
                     BigDecimal profit = new BigDecimal(String.valueOf (profitRate));
 
@@ -605,7 +605,7 @@ public class MaterialController {
                          profitRate = categoryService.getMaterialCategory(categoryId).getProfitRate();
                     }
 
-                    profitRate=profitRate*0.1+1;
+                    profitRate=profitRate*0.01+1;
                     DecimalFormat df = new DecimalFormat("#0.00");
                     BigDecimal profit = new BigDecimal(String.valueOf (profitRate));
 
