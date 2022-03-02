@@ -268,7 +268,7 @@ public class MaterialController {
                         profitRate = categoryService.getMaterialCategory(category).getProfitRate();
                     }
                     profitRate=profitRate*0.01+1;
-                    DecimalFormat df = new DecimalFormat("#0.00");
+                    DecimalFormat df = new DecimalFormat("#0.0");
                     BigDecimal profit = new BigDecimal(String.valueOf (profitRate));
 
                     BigDecimal dropshippingDecimal = material.getDropshippingDecimal();
@@ -606,7 +606,7 @@ public class MaterialController {
                     }
 
                     profitRate=profitRate*0.01+1;
-                    DecimalFormat df = new DecimalFormat("#0.00");
+                    DecimalFormat df = new DecimalFormat("#0.0");
                     BigDecimal profit = new BigDecimal(String.valueOf (profitRate));
 
                     BigDecimal dropshippingDecimal = mvo.getDropshippingDecimal();
