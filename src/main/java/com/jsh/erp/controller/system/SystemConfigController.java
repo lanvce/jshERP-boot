@@ -12,6 +12,7 @@ import com.jsh.erp.utils.Tools;
 import com.mysql.cj.util.LogUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +31,7 @@ import java.util.List;
 
 /**
  * Description
+ *
  * @Author: jishenghua
  * @Date: 2021-3-13 0:01
  */
@@ -51,17 +53,18 @@ public class SystemConfigController {
     @Resource
     private SystemConfigService systemConfigService;
 
-    @Value(value="${file.path}")
+    @Value(value = "${file.path}")
     private String filePath;
 
-    @Value(value="${spring.servlet.multipart.max-file-size}")
+    @Value(value = "${spring.servlet.multipart.max-file-size}")
     private Long maxFileSize;
 
-    @Value(value="${spring.servlet.multipart.max-request-size}")
+    @Value(value = "${spring.servlet.multipart.max-request-size}")
     private Long maxRequestSize;
 
     /**
      * 获取当前租户的配置信息
+     *
      * @param request
      * @return
      */
@@ -69,13 +72,13 @@ public class SystemConfigController {
     @ApiOperation(value = "获取当前租户的配置信息")
     public BaseResponseInfo getCurrentInfo(HttpServletRequest request) throws Exception {
         BaseResponseInfo res = new BaseResponseInfo();
-        try{
+        try {
             List<SystemConfig> list = systemConfigService.getSystemConfig();
             res.code = 200;
-            if(list.size()>0) {
+            if (list.size() > 0) {
                 res.data = list.get(0);
             }
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             res.code = 500;
             res.data = "获取数据失败";
@@ -85,6 +88,7 @@ public class SystemConfigController {
 
     /**
      * 获取文件大小限制
+     *
      * @param request
      * @return
      * @throws Exception
@@ -93,16 +97,16 @@ public class SystemConfigController {
     @ApiOperation(value = "获取文件大小限制")
     public BaseResponseInfo fileSizeLimit(HttpServletRequest request) throws Exception {
         BaseResponseInfo res = new BaseResponseInfo();
-        try{
+        try {
             Long limit = 0L;
-            if(maxFileSize<maxRequestSize) {
+            if (maxFileSize < maxRequestSize) {
                 limit = maxFileSize;
             } else {
                 limit = maxRequestSize;
             }
             res.code = 200;
             res.data = limit;
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             res.code = 500;
             res.data = "获取数据失败";
@@ -112,6 +116,7 @@ public class SystemConfigController {
 
     /**
      * 文件上传统一方法
+     *
      * @param request
      * @param response
      * @return
@@ -125,20 +130,20 @@ public class SystemConfigController {
             String bizPath = request.getParameter("biz");
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             MultipartFile file = multipartRequest.getFile("file");// 获取上传文件对象
-            if(StringUtil.isEmpty(bizPath)){
+            if (StringUtil.isEmpty(bizPath)) {
                 bizPath = "";
             }
             String token = request.getHeader("X-Access-Token");
             Long tenantId = Tools.getTenantIdByToken(token);
             bizPath = bizPath + File.separator + tenantId;
-            logger.error("bizPath:"+bizPath);
+            logger.error("bizPath:" + bizPath);
 
-            savePath = this.uploadLocal(file,bizPath);
-            logger.error("savePath:"+savePath);
-            if(StringUtil.isNotEmpty(savePath)){
+            savePath = this.uploadLocal(file, bizPath);
+            logger.error("savePath:" + savePath);
+            if (StringUtil.isNotEmpty(savePath)) {
                 res.code = 200;
                 res.data = savePath;
-            }else {
+            } else {
                 res.code = 500;
                 res.data = "上传失败！";
             }
@@ -152,34 +157,41 @@ public class SystemConfigController {
 
     /**
      * 本地文件上传
-     * @param mf 文件
-     * @param bizPath  自定义路径
+     *
+     * @param mf      文件
+     * @param bizPath 自定义路径
      * @return
      */
-    public String uploadLocal(MultipartFile mf,String bizPath){
+    public String uploadLocal(MultipartFile mf, String bizPath) {
         try {
             String ctxPath = filePath;
             String fileName = null;
-            File file = new File(ctxPath + File.separator + bizPath + File.separator );
+            File file = new File(ctxPath + File.separator + bizPath + File.separator);
             if (!file.exists()) {
                 file.mkdirs();// 创建文件根目录
             }
             String orgName = mf.getOriginalFilename();// 获取文件名
             orgName = FileUtils.getFileName(orgName);
-            if(orgName.indexOf(".")!=-1){
+            if (orgName.indexOf(".") != -1) {
                 fileName = orgName.substring(0, orgName.lastIndexOf(".")) + "_" + System.currentTimeMillis() + orgName.substring(orgName.indexOf("."));
-            }else{
-                fileName = orgName+ "_" + System.currentTimeMillis();
+            } else {
+                fileName = orgName + "_" + System.currentTimeMillis();
             }
+            if (fileName.contains(".png")) {
+                fileName = fileName.replace(".png", ".jpg");
+            }
+
             String savePath = file.getPath() + File.separator + fileName;
-            logger.error("内层的savePath："+savePath);
             File savefile = new File(savePath);
-            FileCopyUtils.copy(mf.getBytes(), savefile);
+
+            Thumbnails.of(mf.getInputStream()).scale(1f).outputQuality(0.6f).toFile(savefile);
+
+//            FileCopyUtils.copy(mf.getBytes(), savefile);
             String dbpath = null;
 
-            if(StringUtil.isNotEmpty(bizPath)){
+            if (StringUtil.isNotEmpty(bizPath)) {
                 dbpath = bizPath + File.separator + fileName;
-            }else{
+            } else {
                 dbpath = fileName;
             }
             if (dbpath.contains("\\")) {
@@ -204,7 +216,7 @@ public class SystemConfigController {
     public void view(HttpServletRequest request, HttpServletResponse response) {
         // ISO-8859-1 ==> UTF-8 进行编码转换
         String imgPath = extractPathFromPattern(request);
-        if(StringUtil.isEmpty(imgPath) || imgPath=="null"){
+        if (StringUtil.isEmpty(imgPath) || imgPath == "null") {
             return;
         }
         // 其余处理略
@@ -217,12 +229,12 @@ public class SystemConfigController {
             }
             String fileUrl = filePath + File.separator + imgPath;
             File file = new File(fileUrl);
-            if(!file.exists()){
+            if (!file.exists()) {
                 response.setStatus(404);
                 throw new RuntimeException("文件不存在..");
             }
             response.setContentType("application/force-download");// 设置强制下载不打开
-            response.addHeader("Content-Disposition", "attachment;fileName=" + new String(file.getName().getBytes("UTF-8"),"iso-8859-1"));
+            response.addHeader("Content-Disposition", "attachment;fileName=" + new String(file.getName().getBytes("UTF-8"), "iso-8859-1"));
             inputStream = new BufferedInputStream(new FileInputStream(fileUrl));
             outputStream = response.getOutputStream();
             byte[] buf = new byte[1024];
@@ -254,8 +266,9 @@ public class SystemConfigController {
     }
 
     /**
-     *  把指定URL后的字符串全部截断当成参数
-     *  这么做是为了防止URL中包含中文或者特殊字符（/等）时，匹配不了的问题
+     * 把指定URL后的字符串全部截断当成参数
+     * 这么做是为了防止URL中包含中文或者特殊字符（/等）时，匹配不了的问题
+     *
      * @param request
      * @return
      */
