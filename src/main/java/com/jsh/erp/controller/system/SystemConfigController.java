@@ -184,9 +184,18 @@ public class SystemConfigController {
             String savePath = file.getPath() + File.separator + fileName;
             File savefile = new File(savePath);
 
-            Thumbnails.of(mf.getInputStream()).scale(1f).outputQuality(0.6f).toFile(savefile);
+            //压缩图片
+            byte[] bytes = mf.getBytes();
+            if (bytes==null||bytes.length==0){
+                return "";
+            }
 
-//            FileCopyUtils.copy(mf.getBytes(), savefile);
+            if (bytes.length>1024*1024*1024) {
+                Thumbnails.of(mf.getInputStream()).scale(1f).outputQuality(0.8f).toFile(savefile);
+            }else {
+                FileCopyUtils.copy(bytes, savefile);
+            }
+
             String dbpath = null;
 
             if (StringUtil.isNotEmpty(bizPath)) {
