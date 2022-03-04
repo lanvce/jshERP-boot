@@ -438,14 +438,17 @@ public class MaterialController {
                     String imgName="";
                     if (imgStrs.contains(",")){
                         imgName=imgStrs.split(",")[0];
-                    }
-                    if (StringUtil.isNotEmpty(imgName)) {
-                        String imgUrl = imgPath + File.separator +imgName;
-                        if (StringUtil.isNotEmpty(imgUrl)) {
-                            image.setUrl(imgUrl);
-                            lm.put("img", image);
+                        if (StringUtil.isNotEmpty(imgName)) {
+                            String imgUrl = imgPath + File.separator +imgName;
+                                image.setUrl(imgUrl);
+                                lm.put("img", image);
                         }
+                    }else {
+                        String imgUrl = imgPath + File.separator +imgStrs;
+                        image.setUrl(imgUrl);
+                        lm.put("img", image);
                     }
+
                 }
 
                 listMap.add(lm);
