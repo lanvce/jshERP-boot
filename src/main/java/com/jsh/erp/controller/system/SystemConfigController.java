@@ -177,22 +177,22 @@ public class SystemConfigController {
             } else {
                 fileName = orgName + "_" + System.currentTimeMillis();
             }
-            if (fileName.contains(".png")) {
-                fileName = fileName.replace(".png", ".jpg");
-            }
-
-            String savePath = file.getPath() + File.separator + fileName;
-            File savefile = new File(savePath);
 
             //压缩图片 大于1m压缩
             byte[] bytes = mf.getBytes();
             if (bytes==null||bytes.length==0){
                 return "";
             }
-
             if (bytes.length>1024*1024) {
+                if (fileName.contains(".png")) {
+                    fileName = fileName.replace(".png", ".jpg");
+                }
+                String savePath = file.getPath() + File.separator + fileName;
+                File savefile = new File(savePath);
                 Thumbnails.of(mf.getInputStream()).scale(1f).outputQuality(0.8f).toFile(savefile);
             }else {
+                String savePath = file.getPath() + File.separator + fileName;
+                File savefile = new File(savePath);
                 FileCopyUtils.copy(bytes, savefile);
             }
 
