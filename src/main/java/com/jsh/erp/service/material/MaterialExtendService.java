@@ -158,6 +158,16 @@ public class MaterialExtendService {
                 if (StringUtils.isNotEmpty(tempInsertedJson.getString("supplierId"))) {
                     materialExtend.setSupplierId(tempInsertedJson.getLong("supplierId"));
                 }
+                //设置 税率相关
+                if (StringUtils.isNotEmpty(tempInsertedJson.getString("normalTaxRate"))){
+                    materialExtend.setNormalTaxRate(tempInsertedJson.getString("normalTaxRate"));
+                }
+                if (StringUtils.isNotEmpty(tempInsertedJson.getString("noTaxRate"))){
+                    materialExtend.setNoTaxRate(tempInsertedJson.getString("noTaxRate"));
+                }
+                if (StringUtils.isNotEmpty(tempInsertedJson.getString("specialTaxRate"))){
+                    materialExtend.setSpecialTaxRate(tempInsertedJson.getString("specialTaxRate"));
+                }
                 this.insertMaterialExtend(materialExtend);
             }
         }
@@ -224,6 +234,17 @@ public class MaterialExtendService {
 
                 if (null != tempUpdatedJson.getLong("supplierId")) {
                     materialExtend.setSupplierId(tempUpdatedJson.getLong("supplierId"));
+                }
+
+                //设置 税率相关
+                if (StringUtils.isNotEmpty(tempUpdatedJson.getString("normalTaxRate"))){
+                    materialExtend.setNormalTaxRate(tempUpdatedJson.getString("normalTaxRate"));
+                }
+                if (StringUtils.isNotEmpty(tempUpdatedJson.getString("noTaxRate"))){
+                    materialExtend.setNoTaxRate(tempUpdatedJson.getString("noTaxRate"));
+                }
+                if (StringUtils.isNotEmpty(tempUpdatedJson.getString("specialTaxRate"))){
+                    materialExtend.setSpecialTaxRate(tempUpdatedJson.getString("specialTaxRate"));
                 }
                 this.updateMaterialExtend(materialExtend);
             }

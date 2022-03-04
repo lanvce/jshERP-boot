@@ -123,7 +123,7 @@ public class MaterialService {
         return list;
     }
 
-    public List<MaterialVo4Unit> select(String barCode, String name, String standard, String model, String categoryId, String mpList, int offset, int rows)
+    public List<MaterialVo4Unit> select(String barCode, String brand,String name, String standard, String model, String categoryId, String mpList, int offset, int rows)
             throws Exception {
         String[] mpArr = new String[]{};
         if (StringUtil.isNotEmpty(mpList)) {
@@ -136,7 +136,7 @@ public class MaterialService {
             if (StringUtil.isNotEmpty(categoryId)) {
                 idList = getListByParentId(Long.parseLong(categoryId));
             }
-            list = materialMapperEx.selectByConditionMaterial(barCode, name, standard, model, idList, mpList, offset, rows);
+            list = materialMapperEx.selectByConditionMaterial(barCode, brand,name, standard, model, idList, mpList, offset, rows);
 
             if (!CollectionUtils.isEmpty(list)) {
                 //获取商品ids
@@ -248,14 +248,14 @@ public class MaterialService {
         return materialLinks.stream().collect(Collectors.groupingBy(MaterialLink::getMaterialId, Collectors.mapping(MaterialLink::getLink, Collectors.toList())));
     }
 
-    public Long countMaterial(String barCode, String name, String standard, String model, String categoryId, String mpList) throws Exception {
+    public Long countMaterial(String barCode, String brand,String name, String standard, String model, String categoryId, String mpList) throws Exception {
         Long result = null;
         try {
             List<Long> idList = new ArrayList<>();
             if (StringUtil.isNotEmpty(categoryId)) {
                 idList = getListByParentId(Long.parseLong(categoryId));
             }
-            result = materialMapperEx.countsByMaterial(barCode, name, standard, model, idList, mpList);
+            result = materialMapperEx.countsByMaterial(barCode, brand,name, standard, model, idList, mpList);
         } catch (Exception e) {
             JshException.readFail(logger, e);
         }

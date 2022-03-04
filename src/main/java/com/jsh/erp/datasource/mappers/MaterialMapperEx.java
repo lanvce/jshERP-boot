@@ -20,6 +20,7 @@ public interface MaterialMapperEx {
 
     List<MaterialVo4Unit> selectByConditionMaterial(
             @Param("barCode") String barCode,
+            @Param("brand") String brand,
             @Param("name") String name,
             @Param("standard") String standard,
             @Param("model") String model,
@@ -30,6 +31,7 @@ public interface MaterialMapperEx {
 
     Long countsByMaterial(
             @Param("barCode") String barCode,
+            @Param("brand") String brand,
             @Param("name") String name,
             @Param("standard") String standard,
             @Param("model") String model,

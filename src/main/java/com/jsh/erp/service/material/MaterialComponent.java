@@ -33,11 +33,12 @@ public class MaterialComponent implements ICommonQuery {
         String search = map.get(Constants.SEARCH);
         String categoryId = StringUtil.getInfo(search, "categoryId");
         String barCode = StringUtil.getInfo(search, "barCode");
+        String brand = StringUtil.getInfo(search, "brand");
         String name = StringUtil.getInfo(search, "name");
         String standard = StringUtil.getInfo(search, "standard");
         String model = StringUtil.getInfo(search, "model");
         String mpList = StringUtil.getInfo(search, "mpList");
-        return materialService.select(barCode, name, standard, model,categoryId,mpList, QueryUtils.offset(map), QueryUtils.rows(map));
+        return materialService.select(barCode,brand, name, standard, model,categoryId,mpList, QueryUtils.offset(map), QueryUtils.rows(map));
     }
 
     @Override
@@ -45,11 +46,12 @@ public class MaterialComponent implements ICommonQuery {
         String search = map.get(Constants.SEARCH);
         String categoryId = StringUtil.getInfo(search, "categoryId");
         String barCode = StringUtil.getInfo(search, "barCode");
+        String brand = StringUtil.getInfo(search, "brand");
         String name = StringUtil.getInfo(search, "name");
         String standard = StringUtil.getInfo(search, "standard");
         String model = StringUtil.getInfo(search, "model");
         String mpList = StringUtil.getInfo(search, "mpList");
-        return materialService.countMaterial(barCode, name, standard, model,categoryId,mpList);
+        return materialService.countMaterial(barCode, brand,name, standard, model,categoryId,mpList);
     }
 
     @Override

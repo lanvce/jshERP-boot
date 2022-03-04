@@ -21,6 +21,9 @@
     <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
     <result column="tenant_id" jdbcType="BIGINT" property="tenantId" />
     <result column="delete_Flag" jdbcType="VARCHAR" property="deleteFlag" />
+    <result column="normal_tax_rate" jdbcType="VARCHAR" property="normalTaxRate"/>
+    <result column="no_tax_rate" jdbcType="VARCHAR" property="noTaxRate"/>
+    <result column="special_tax_rate" jdbcType="VARCHAR" property="specialTaxRate"/>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -83,7 +86,7 @@
   <sql id="Base_Column_List">
     id, material_id, bar_code, commodity_unit, sku, purchase_decimal, commodity_decimal, dropshipping_decimal,cost_decimal,
     wholesale_decimal, low_decimal, default_flag, create_time, create_serial, update_serial, 
-    update_time, supplier_id,tenant_id, delete_Flag
+    update_time, supplier_id,tenant_id, delete_Flag,normal_tax_rate,no_tax_rate,special_tax_rate
   </sql>
   <select id="selectByExample" parameterType="com.jsh.erp.datasource.entities.MaterialExtendExample" resultMap="BaseResultMap">
     select
@@ -121,13 +124,13 @@
       commodity_decimal, wholesale_decimal, low_decimal, 
       default_flag, create_time, create_serial, 
       update_serial, update_time, supplier_id,tenant_id,
-      delete_Flag)
+      delete_Flag,normal_tax_rate,no_tax_rate,special_tax_rate)
     values (#{id,jdbcType=BIGINT}, #{materialId,jdbcType=BIGINT}, #{barCode,jdbcType=VARCHAR}, 
       #{commodityUnit,jdbcType=VARCHAR}, #{sku,jdbcType=VARCHAR}, #{purchaseDecimal,jdbcType=DECIMAL}, #{dropshippingDecimal,jdbcType=DECIMAL}, #{costDecimal,jdbcType=DECIMAL},
     #{commodityDecimal,jdbcType=DECIMAL}, #{wholesaleDecimal,jdbcType=DECIMAL}, #{lowDecimal,jdbcType=DECIMAL},
       #{defaultFlag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createSerial,jdbcType=VARCHAR}, 
       #{updateSerial,jdbcType=VARCHAR}, #{updateTime,jdbcType=BIGINT},#{supplierId,jdbcType=BIGINT},#{tenantId,jdbcType=BIGINT},
-      #{deleteFlag,jdbcType=VARCHAR})
+      #{deleteFlag,jdbcType=VARCHAR},#{normalTaxRate,jdbcType=VARCHAR},#{noTaxRate,jdbcType=VARCHAR},#{specialTaxRate,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.MaterialExtend">
     insert into jsh_material_extend
@@ -189,6 +192,15 @@
       <if test="deleteFlag != null">
         delete_Flag,
       </if>
+      <if test="normalTaxRate != null">
+        normal_tax_rate,
+      </if>
+      <if test="noTaxRate != null">
+        no_tax_rate,
+      </if>
+      <if test="specialTaxRate != null">
+        special_tax_rate,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -247,6 +259,16 @@
       </if>
       <if test="deleteFlag != null">
         #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+
+      <if test="normalTaxRate != null">
+        #{normalTaxRate,jdbcType=VARCHAR},
+      </if>
+      <if test="noTaxRate != null">
+        #{noTaxRate,jdbcType=VARCHAR},
+      </if>
+      <if test="specialTaxRate != null">
+        #{specialTaxRate,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -316,6 +338,16 @@
       <if test="record.deleteFlag != null">
         delete_Flag = #{record.deleteFlag,jdbcType=VARCHAR},
       </if>
+
+      <if test="record.normalTaxRate != null">
+        normal_tax_rate = #{record.normalTaxRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noTaxRate != null">
+        no_tax_rate = #{record.noTaxRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specialTaxRate != null">
+        special_tax_rate = #{record.specialTaxRate,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -341,7 +373,10 @@
       update_time = #{record.updateTime,jdbcType=BIGINT},
     supplier_id = #{record.supplierId,jdbcType=BIGINT},
     tenant_id = #{record.tenantId,jdbcType=BIGINT},
-      delete_Flag = #{record.deleteFlag,jdbcType=VARCHAR}
+      delete_Flag = #{record.deleteFlag,jdbcType=VARCHAR},
+    normal_tax_rate = #{record.normalTaxRate,jdbcType=VARCHAR},
+    no_tax_rate = #{record.noTaxRate,jdbcType=VARCHAR},
+    special_tax_rate = #{record.specialTaxRate,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -403,6 +438,17 @@
       <if test="deleteFlag != null">
         delete_Flag = #{deleteFlag,jdbcType=VARCHAR},
       </if>
+
+      <if test="normalTaxRate != null">
+        normal_tax_rate = #{normalTaxRate,jdbcType=VARCHAR},
+      </if>
+      <if test="noTaxRate != null">
+        no_tax_rate = #{noTaxRate,jdbcType=VARCHAR},
+      </if>
+      <if test="specialTaxRate != null">
+        special_tax_rate = #{specialTaxRate,jdbcType=VARCHAR},
+      </if>
+
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -425,7 +471,10 @@
       update_time = #{updateTime,jdbcType=BIGINT},
       supplier_id = #{supplierId,jdbcType=BIGINT},
       tenant_id = #{tenantId,jdbcType=BIGINT},
-      delete_Flag = #{deleteFlag,jdbcType=VARCHAR}
+      delete_Flag = #{deleteFlag,jdbcType=VARCHAR},
+      normal_tax_rate = #{normalTaxRate,jdbcType=VARCHAR},
+      no_tax_rate = #{noTaxRate,jdbcType=VARCHAR},
+      special_tax_rate = #{specialTaxRate,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -42,6 +42,36 @@ public class MaterialExtend {
 
     private String deleteFlag;
 
+    private String normalTaxRate;
+
+    private String noTaxRate;
+
+    private String specialTaxRate;
+
+    public String getNormalTaxRate() {
+        return normalTaxRate;
+    }
+
+    public void setNormalTaxRate(String normalTaxRate) {
+        this.normalTaxRate = normalTaxRate;
+    }
+
+    public String getNoTaxRate() {
+        return noTaxRate;
+    }
+
+    public void setNoTaxRate(String noTaxRate) {
+        this.noTaxRate = noTaxRate;
+    }
+
+    public String getSpecialTaxRate() {
+        return specialTaxRate;
+    }
+
+    public void setSpecialTaxRate(String specialTaxRate) {
+        this.specialTaxRate = specialTaxRate;
+    }
+
     public Long getSupplierId() {
         return supplierId;
     }

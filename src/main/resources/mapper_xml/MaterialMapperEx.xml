@@ -52,6 +52,10 @@
             <bind name="bindBarCode" value="'%'+barCode+'%'"/>
             and me.bar_code like #{bindBarCode}
         </if>
+        <if test="brand != null">
+            <bind name="bindBrand" value="'%'+brand+'%'"/>
+            and m.brand like #{bindBrand}
+        </if>
         <if test="name != null">
             <bind name="bindName" value="'%'+name+'%'"/>
             and m.name like #{bindName}
@@ -89,6 +93,10 @@
         <if test="barCode != null">
             <bind name="bindBarCode" value="'%'+barCode+'%'"/>
             and me.bar_code like #{bindBarCode}
+        </if>
+        <if test="brand != null">
+            <bind name="bindBrand" value="'%'+brand+'%'"/>
+            and m.brand like #{bindBrand}
         </if>
         <if test="name != null">
             <bind name="bindName" value="'%'+name+'%'"/>

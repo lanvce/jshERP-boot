@@ -433,10 +433,19 @@ public class MaterialController {
 //                image.setHeight(150);
 //                image.setWidth(150);
 
-                String imgUrl = imgPath + File.separator + i.getImgName();
-                if (StringUtil.isNotEmpty(imgUrl)) {
-                    image.setUrl(imgUrl);
-                    lm.put("img", image);
+                String imgStrs=i.getImgName();//可能为多条
+                if (StringUtil.isNotEmpty(imgStrs)) {
+                    String imgName="";
+                    if (imgStrs.contains(",")){
+                        imgName=imgStrs.split(",")[0];
+                    }
+                    if (StringUtil.isNotEmpty(imgName)) {
+                        String imgUrl = imgPath + File.separator + i.getImgName();
+                        if (StringUtil.isNotEmpty(imgUrl)) {
+                            image.setUrl(imgUrl);
+                            lm.put("img", image);
+                        }
+                    }
                 }
 
                 listMap.add(lm);

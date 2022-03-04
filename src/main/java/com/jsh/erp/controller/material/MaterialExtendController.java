@@ -62,6 +62,9 @@ public class MaterialExtendController {
                     item.put("wholesaleDecimal", md.getWholesaleDecimal());
                     item.put("lowDecimal", md.getLowDecimal());
                     item.put("supplierId", md.getSupplierId());
+                    item.put("normalTaxRate", md.getNormalTaxRate());
+                    item.put("noTaxRate", md.getNoTaxRate());
+                    item.put("specialTaxRate", md.getSpecialTaxRate());
 
                     dataArray.add(item);
                 }
