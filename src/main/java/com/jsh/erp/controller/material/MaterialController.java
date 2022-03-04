@@ -440,7 +440,7 @@ public class MaterialController {
                         imgName=imgStrs.split(",")[0];
                     }
                     if (StringUtil.isNotEmpty(imgName)) {
-                        String imgUrl = imgPath + File.separator + i.getImgName();
+                        String imgUrl = imgPath + File.separator +imgName;
                         if (StringUtil.isNotEmpty(imgUrl)) {
                             image.setUrl(imgUrl);
                             lm.put("img", image);
