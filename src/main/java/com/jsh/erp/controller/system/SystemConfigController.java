@@ -184,13 +184,13 @@ public class SystemConfigController {
             String savePath = file.getPath() + File.separator + fileName;
             File savefile = new File(savePath);
 
-            //压缩图片
+            //压缩图片 大于1m压缩
             byte[] bytes = mf.getBytes();
             if (bytes==null||bytes.length==0){
                 return "";
             }
 
-            if (bytes.length>1024*1024*1024) {
+            if (bytes.length>1024*1024) {
                 Thumbnails.of(mf.getInputStream()).scale(1f).outputQuality(0.8f).toFile(savefile);
             }else {
                 FileCopyUtils.copy(bytes, savefile);
