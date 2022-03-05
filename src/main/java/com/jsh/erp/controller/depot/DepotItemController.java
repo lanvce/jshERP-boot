@@ -224,6 +224,9 @@ public class DepotItemController {
                     item.put("supplier", diEx.getSupplierName());
                     item.put("brand", diEx.getBrand());
                     item.put("quoteType", diEx.getQuoteType()==1?"代发":"集采");
+                    int taxRateType = diEx.getTaxRateType();
+                    item.put("taxRateType", taxRateType);
+
                     dataArray.add(item);
                 }
             }

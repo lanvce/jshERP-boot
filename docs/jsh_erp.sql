@@ -1062,8 +1062,13 @@ alter table jsh_material_extend add ( supplier_id bigint(0) NULL DEFAULT NULL  C
 alter table jsh_material_category add ( profit_rate double NOT NULL DEFAULT 3.00  COMMENT "利润点 默认3");
 
 #增加 专票税率 普票税率 不含税
-alter table jsh_material_extend add ( normal_tax_rate varchar(50) NULL DEFAULT '1%'  COMMENT "普票税率");
-alter table jsh_material_extend add ( special_tax_rate varchar(50) NULL DEFAULT '13%'  COMMENT "专票税率");
-alter table jsh_material_extend add ( no_tax_rate varchar(50) NULL DEFAULT '0%'  COMMENT "不含税税率");
+alter table jsh_material_extend add ( normal_tax_rate varchar(50) NULL DEFAULT null  COMMENT "普票税率");
+alter table jsh_material_extend add ( special_tax_rate varchar(50) NULL DEFAULT null  COMMENT "专票税率");
+alter table jsh_material_extend add ( no_tax_rate varchar(50) NULL DEFAULT null  COMMENT "不含税税率");
+
+#增加税种类型
+alter table jsh_depot_item add ( tax_rate_type int(10)  COMMENT "1:专票 2：普票 3：不含税");
+
+
 
 

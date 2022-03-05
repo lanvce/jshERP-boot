@@ -464,6 +464,9 @@ public class DepotItemService {
                                 String.format(ExceptionConstants.DEPOT_HEAD_ANOTHER_DEPOT_FAILED_MSG));
                     }
                 }
+                if (StringUtil.isExist(rowObj.get("taxRateType"))) {
+                    depotItem.setTaxRateType(rowObj.getIntValue("taxRateType"));
+                }
                 if (StringUtil.isExist(rowObj.get("taxRate"))) {
                     depotItem.setTaxRate(rowObj.getBigDecimal("taxRate"));
                 }
@@ -482,33 +485,34 @@ public class DepotItemService {
                 if (StringUtil.isExist(rowObj.get("supplierId"))) {
                     depotItem.setSupplier(rowObj.getLong("supplierId"));
                 }
+
                 //出库时判断库存是否充足
-                if (BusinessConstants.DEPOTHEAD_TYPE_OUT.equals(depotHead.getType())) {
-                    if (depotItem == null) {
-                        continue;
-                    }
-                    Material material = materialService.getMaterial(depotItem.getMaterialId());
-                    if (material == null) {
-                        continue;
-                    }
-                    BigDecimal stock = getStockByParam(depotItem.getDepotId(), depotItem.getMaterialId(), null, null);
-                    BigDecimal thisBasicNumber = depotItem.getBasicNumber() == null ? BigDecimal.ZERO : depotItem.getBasicNumber();
-                    if (systemConfigService.getMinusStockFlag() == false && stock.compareTo(thisBasicNumber) < 0) {
-                        throw new BusinessRunTimeException(ExceptionConstants.MATERIAL_STOCK_NOT_ENOUGH_CODE,
-                                String.format(ExceptionConstants.MATERIAL_STOCK_NOT_ENOUGH_MSG, material == null ? "" : material.getName()));
-                    }
-                    //出库时处理序列号
-                    if (!BusinessConstants.SUB_TYPE_TRANSFER.equals(depotHead.getSubType())) {
-                        //判断商品是否开启序列号，开启的收回序列号，未开启的跳过
-                        if (BusinessConstants.ENABLE_SERIAL_NUMBER_ENABLED.equals(material.getEnableSerialNumber())) {
-                            //查询单据子表中开启序列号的数据列表
-                            serialNumberService.checkAndUpdateSerialNumber(depotItem, depotHead.getNumber(), userInfo, StringUtil.toNull(depotItem.getSnList()));
-                        }
-                    }
-                }
+//                if (BusinessConstants.DEPOTHEAD_TYPE_OUT.equals(depotHead.getType())) {
+//                    if (depotItem == null) {
+//                        continue;
+//                    }
+//                    Material material = materialService.getMaterial(depotItem.getMaterialId());
+//                    if (material == null) {
+//                        continue;
+//                    }
+//                    BigDecimal stock = getStockByParam(depotItem.getDepotId(), depotItem.getMaterialId(), null, null);
+//                    BigDecimal thisBasicNumber = depotItem.getBasicNumber() == null ? BigDecimal.ZERO : depotItem.getBasicNumber();
+//                    if (systemConfigService.getMinusStockFlag() == false && stock.compareTo(thisBasicNumber) < 0) {
+//                        throw new BusinessRunTimeException(ExceptionConstants.MATERIAL_STOCK_NOT_ENOUGH_CODE,
+//                                String.format(ExceptionConstants.MATERIAL_STOCK_NOT_ENOUGH_MSG, material == null ? "" : material.getName()));
+//                    }
+//                    //出库时处理序列号
+//                    if (!BusinessConstants.SUB_TYPE_TRANSFER.equals(depotHead.getSubType())) {
+//                        //判断商品是否开启序列号，开启的收回序列号，未开启的跳过
+//                        if (BusinessConstants.ENABLE_SERIAL_NUMBER_ENABLED.equals(material.getEnableSerialNumber())) {
+//                            //查询单据子表中开启序列号的数据列表
+//                            serialNumberService.checkAndUpdateSerialNumber(depotItem, depotHead.getNumber(), userInfo, StringUtil.toNull(depotItem.getSnList()));
+//                        }
+//                    }
+//                }
                 this.insertDepotItemWithObj(depotItem);
                 //更新当前库存
-                updateCurrentStock(depotItem);
+//                updateCurrentStock(depotItem);
             }
             //如果关联单据号非空则更新订单的状态,单据类型：采购入库单或销售出库单
             if (BusinessConstants.SUB_TYPE_PURCHASE.equals(depotHead.getSubType())

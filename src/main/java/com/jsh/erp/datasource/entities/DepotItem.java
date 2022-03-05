@@ -56,6 +56,16 @@ public class DepotItem {
 
     private String brand;//品牌
 
+    private int taxRateType;//税种类型 1：专票 2：普票 3：不含税
+
+    public int getTaxRateType() {
+        return taxRateType;
+    }
+
+    public void setTaxRateType(int taxRateType) {
+        this.taxRateType = taxRateType;
+    }
+
     public int getQuoteType() {
         return quoteType;
     }
