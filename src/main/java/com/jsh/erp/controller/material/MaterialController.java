@@ -629,7 +629,10 @@ public class MaterialController {
                     if (purchaseDecimal!=null){
                         mvo.setPurchaseDecimal(purchaseDecimal.multiply(profit));
                     }
-
+                    BigDecimal commodityDecimal = mvo.getCommodityDecimal();
+                    if (commodityDecimal!=null){
+                        mvo.setCommodityDecimal(commodityDecimal);
+                    }
 
                     String expand = ""; //扩展信息
                     for (int i = 0; i < mpArr.length; i++) {
