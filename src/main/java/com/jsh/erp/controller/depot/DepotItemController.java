@@ -714,7 +714,17 @@ public class DepotItemController {
      */
     @GetMapping(value = "/excel/send")
     @ApiOperation(value = "导出单据到excel")
-    public boolean sendOrderList(@RequestParam("id") Long id) throws Exception{
-        return depotItemService.sendExcel(id,"报价单");
+    public BaseResponseInfo sendOrderList(@RequestParam("id") Long id) throws Exception{
+        BaseResponseInfo res = new BaseResponseInfo();
+
+        try {
+            depotItemService.sendExcel(id, "报价单");
+            res.code = 200;
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            res.code = 500;
+        }
+        return res;
     }
 }
