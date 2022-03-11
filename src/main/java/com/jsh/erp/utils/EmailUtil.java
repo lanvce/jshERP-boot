@@ -2,6 +2,7 @@ package com.jsh.erp.utils;
 
 import com.jsh.erp.constants.BusinessConstants;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -16,8 +17,10 @@ import java.util.Properties;
 
 @Component
 public class EmailUtil {
+    private static String profile;
+
     private static final Logger logger = Logger.getLogger(EmailUtil.class);
-    private static final String PROPERTIES_DEFAULT = "application.properties";
+
     private static String host;
     private static Integer port;
     private static String userName;
@@ -27,19 +30,23 @@ public class EmailUtil {
     private static String cc;
 
 
-    static{
-        init();
+    @Value("${spring.profiles.active}")
+    public void setProfile(String env) {
+        EmailUtil.profile = env;
     }
 
-    private static JavaMailSenderImpl mailSender = createMailSender();
+    public static String getProfile() {
+        return profile;
+    }
+
 
     /**
      * 初始化
      */
-    private static void init() {
+    private void init() {
         Properties properties = new Properties();
         try{
-            InputStream inputStream = EmailUtil.class.getClassLoader().getResourceAsStream(PROPERTIES_DEFAULT);
+            InputStream inputStream = EmailUtil.class.getClassLoader().getResourceAsStream("application-"+EmailUtil.getProfile()+".properties");
             properties.load(inputStream);
             inputStream.close();
             host = properties.getProperty("host");
@@ -60,7 +67,8 @@ public class EmailUtil {
      *
      * @return 配置好的工具
      */
-    private static JavaMailSenderImpl createMailSender() {
+    private  JavaMailSenderImpl createMailSender() {
+        this.init();
         JavaMailSenderImpl sender = new JavaMailSenderImpl();
         sender.setHost(host);
         sender.setPort(port);
@@ -83,7 +91,8 @@ public class EmailUtil {
      * @throws MessagingException 异常
      * @throws UnsupportedEncodingException 异常
      */
-    public static void sendHtmlMail(String to, String subject, String html,File file) throws MessagingException, UnsupportedEncodingException {
+    public  void sendHtmlMail(String to, String subject, String html,File file) throws MessagingException, UnsupportedEncodingException {
+        JavaMailSenderImpl mailSender = this.createMailSender();
         MimeMessage message = mailSender.createMimeMessage();
         // 设置utf-8或GBK编码，否则邮件会有乱码
         MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
