@@ -222,7 +222,10 @@
 			<properties>
 				<profileActive>dev</profileActive>
 			</properties>
-
+			<activation>
+				<!-- 默认情况下使用dev开发配置 如 打包时不包含 -p 参数-->
+				<activeByDefault>true</activeByDefault>
+			</activation>
 		</profile>
 		<!-- 打包命令package -P test -->
 		<profile>
@@ -237,10 +240,7 @@
 			<properties>
 				<profileActive>prod</profileActive>
 			</properties>
-			<activation>
-				<!-- 默认情况下使用dev开发配置 如 打包时不包含 -p 参数-->
-				<activeByDefault>true</activeByDefault>
-			</activation>
+
 		</profile>
 	</profiles>
 </project>
