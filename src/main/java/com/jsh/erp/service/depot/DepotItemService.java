@@ -948,7 +948,8 @@ public class DepotItemService {
             if (!file.exists()) {
                 return false;
             }
-            EmailUtil.sendHtmlMail(supplier.getEmail(), depotHead.getName() + "-" + formType, "", file);
+            EmailUtil emailUtil = new EmailUtil();
+            emailUtil.sendHtmlMail(supplier.getEmail(), depotHead.getName() + "-" + formType, "", file);
         } catch (Exception e) {
 
         }

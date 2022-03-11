@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 
 	<name>jshERP-boot</name>
-	<description>华夏ERP</description>
+	<description>hydd ERP</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -137,7 +137,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>jshERP</finalName>
+		<finalName>jshERP_${profileActive}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -204,12 +204,43 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
+
 		</plugins>
 
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
 			</resource>
 		</resources>
 	</build>
+
+	<!-- 多环境配置方案 -->
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<profileActive>dev</profileActive>
+			</properties>
+			<activation>
+				<!-- 默认情况下使用dev开发配置 如 打包时不包含 -p 参数-->
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<!-- 打包命令package -P test -->
+		<profile>
+			<id>test</id>
+			<properties>
+				<profileActive>test</profileActive>
+			</properties>
+		</profile>
+		<!-- 打包命令package -P prod -->
+		<profile>
+			<id>prod</id>
+			<properties>
+				<profileActive>prod</profileActive>
+			</properties>
+
+		</profile>
+	</profiles>
 </project>
