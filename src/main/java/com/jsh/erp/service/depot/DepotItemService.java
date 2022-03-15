@@ -782,8 +782,8 @@ public class DepotItemService {
 
 //            String templatePath = this.getClass().getClassLoader().getResource("template").getPath();
 
-            System.out.println("templatePath:" + templatePath);
-            System.out.println("imgPath:" + imgPath);
+           logger.error("templatePath:" + templatePath);
+            logger.error("imgPath:" + imgPath);
 
             TemplateExportParams params = new TemplateExportParams(templatePath + File.separator + "orderList.xlsx");
             Map<String, Object> map = new HashMap<String, Object>();
