@@ -865,6 +865,10 @@ public class DepotItemService {
             map.put("list", listMap);
 
             Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+            if (workbook==null){
+                logger.error("workbook为空");
+                return "";
+            }
             String fileName = depotHead.getDefaultNumber() + ".xlsx";
             String targetPath = templatePath + File.separator + "target";
             File savefile = new File(targetPath);
