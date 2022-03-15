@@ -786,6 +786,8 @@ public class DepotItemService {
             logger.error("imgPath:" + imgPath);
 
             TemplateExportParams params = new TemplateExportParams(templatePath + File.separator + "orderList.xlsx");
+            logger.error("url:" + params.getTemplateUrl());
+
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("date", Tools.getNow());
             map.put("billId", depotHead.getDefaultNumber());
