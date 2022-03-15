@@ -106,7 +106,7 @@
 		<dependency>
 			<groupId>cn.afterturn</groupId>
 			<artifactId>easypoi-base</artifactId>
-			<version>4.4.0</version>
+			<version>4.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>activation</groupId>
@@ -210,7 +210,6 @@
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
 			</resource>
 		</resources>
 	</build>
