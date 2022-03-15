@@ -782,8 +782,12 @@ public class DepotItemService {
 
 //            String templatePath = this.getClass().getClassLoader().getResource("template").getPath();
 
-            System.out.println("templatePath:" + templatePath);
+           logger.error("templatePath:" + templatePath);
+            logger.error("imgPath:" + imgPath);
+
             TemplateExportParams params = new TemplateExportParams(templatePath + File.separator + "orderList.xlsx");
+            logger.error("url:" + params.getTemplateUrl());
+
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("date", Tools.getNow());
             map.put("billId", depotHead.getDefaultNumber());
@@ -863,6 +867,10 @@ public class DepotItemService {
             map.put("list", listMap);
 
             Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+            if (workbook==null){
+                logger.error("workbook为空");
+                return "";
+            }
             String fileName = depotHead.getDefaultNumber() + ".xlsx";
             String targetPath = templatePath + File.separator + "target";
             File savefile = new File(targetPath);
