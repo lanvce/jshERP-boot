@@ -428,6 +428,7 @@ public class MaterialController {
                 lm.put("links", i.getLinks());
                 //图片地址
                 ImageEntity image = new ImageEntity();
+                image.setType("jpg");
 //                image.setHeight(150);
 //                image.setWidth(150);
 
