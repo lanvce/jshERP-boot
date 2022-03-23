@@ -27,9 +27,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
@@ -458,7 +456,7 @@ public class MaterialController {
 
             org.apache.poi.ss.usermodel.Workbook workbook = ExcelExportUtil.exportExcel(params, map);
             String targetPath = templatePath + File.separator + "target";
-            String fileName="商品明细表";
+            String fileName="商品明细表.xlsx";
             File savefile = new File(targetPath);
             if (!savefile.exists()) {
                 savefile.mkdirs();
@@ -468,14 +466,29 @@ public class MaterialController {
                 excelFile.createNewFile();
             }
 
+            //先写入本地 再把本地文件下载到网页
+            OutputStream outputStream=new FileOutputStream(excelFile);
+            workbook.write(outputStream);
+            workbook.close();
+            outputStream.close();
+
+            //网络流
             ServletOutputStream out = response.getOutputStream();
             response.setContentType("application/x-download");
-            fileName = URLEncoder.encode( "商品明细表", "UTF-8");
             response.setCharacterEncoding("UTF-8");
-            response.addHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
+            response.addHeader("Content-Disposition", "attachment;filename=" + fileName );
 
-            workbook.write(out);
-            workbook.close();
+            byte[] buffer=new byte[1024];
+            int numberRead = 0;
+            InputStream input=new FileInputStream(excelFile);
+            try {
+                while((numberRead=input.read(buffer))!=-1 ){
+                    out.write(buffer, 0, numberRead);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             out.close();
             out.flush();
 
