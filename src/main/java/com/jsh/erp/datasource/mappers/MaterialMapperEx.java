@@ -58,6 +58,9 @@ public interface MaterialMapperEx {
             @Param("standard") String standard,
             @Param("model") String model,
             @Param("idList") List<Long> idList);
+
+
+    List<MaterialVo4Unit> findByMaterialIds(@Param("ids") List<Long> ids);
     /**
      * 通过商品名称查询商品信息
      * */
