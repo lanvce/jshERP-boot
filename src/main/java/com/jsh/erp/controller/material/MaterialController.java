@@ -420,7 +420,7 @@ public class MaterialController {
                             HttpServletRequest request, HttpServletResponse response) {
         try {
             List<MaterialVo4Unit> dataList = new ArrayList<>();
-            if (CollectionUtils.isEmpty(ids)) {
+            if (!CollectionUtils.isEmpty(ids)) {
                 dataList = materialService.findByAll(StringUtil.toNull(barCode), StringUtil.toNull(name),
                         StringUtil.toNull(standard), StringUtil.toNull(model), StringUtil.toNull(categoryId));
             } else {
